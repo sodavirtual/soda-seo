@@ -61,3 +61,5 @@ docs/_build/
 # Django settings_local.py
 settings_local.py
 .DS_Store
+filer_public/
+filer_public_thumbnails/

@@ -268,18 +268,18 @@ class Seo(CreateUpdateModel):
         blank=True
     )
 
+    twitter_creator = models.CharField(
+        'twitter:creator',
+        max_length=255,
+        blank=True
+    )
+
     twitter_image = FilerImageField(
         null=True,
         blank=True,
         verbose_name='twitter:image',
         on_delete=models.SET_NULL,
         related_name='seo_twitter_image'
-    )
-
-    twitter_url = models.CharField(
-        'twitter:url',
-        max_length=255,
-        blank=True
     )
 
     # generic relation
@@ -293,3 +293,38 @@ class Seo(CreateUpdateModel):
     class Meta:
         verbose_name = 'entrada seo'
         verbose_name_plural = 'entradas seo'
+
+    def to_dict(self):
+        data = {
+            'template': self.template,
+            'title': self.title,
+            'keywords': self.keywords,
+            'description': self.description,
+            'author': self.author,
+            'og_site_name': self.og_site_name,
+            'og_title': self.og_title,
+            'og_type': self.og_type,
+            'og_image': self.og_image,
+            'og_url': self.og_url,
+            'og_description': self.og_description,
+            'article_published_time': self.article_published_time,
+            'article_modified_time': self.article_modified_time,
+            'article_section': self.article_section,
+            'article_tag': self.article_tag,
+            'itemprop_name': self.itemprop_name,
+            'itemprop_description': self.itemprop_description,
+            'itemprop_image': self.itemprop_image,
+            'twitter_card': self.twitter_card,
+            'twitter_site': self.twitter_site,
+            'twitter_title': self.twitter_title,
+            'twitter_description': self.twitter_description,
+            'twitter_image': self.twitter_image,
+            'twitter_creator': self.twitter_creator,
+        }
+
+        try:
+            data['content_object'] = self.content_object
+        except AttributeError:
+            pass
+
+        return data

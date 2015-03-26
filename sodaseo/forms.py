@@ -6,6 +6,8 @@ from suit.widgets import (
     SuitSplitDateTimeWidget, LinkedSelect, AutosizedTextarea
 )
 from django_ace import AceWidget
+import os
+import sys
 
 from sodaseo.models import Config, Template, Url, Var, Seo
 
@@ -35,6 +37,19 @@ class ConfigForm(forms.ModelForm):
 
 class TemplateForm(forms.ModelForm):
 
+    def get_default_template(self):
+        import sodaseo
+        template_dir = os.path.join(
+            os.path.dirname(sodaseo.__file__), 'templates/sodaseo/default.html'
+        )
+        f = open(template_dir)
+        return f.read()
+
+    def __init__(self, *args, **kwargs):
+        super(TemplateForm, self).__init__(*args, **kwargs)
+        if not self.instance:
+            self.initial['body'] = self.get_default_template()
+
     class Meta:
         model = Template
         widgets = {
@@ -61,7 +76,14 @@ class UrlForm(forms.ModelForm):
         site = self.cleaned_data.get('site')
         path = self.cleaned_data.get('path')
 
-        if Url.objects.filter(site=site, path=path).exists():
+        if self.instance:
+            search = Url.objects.exclude(pk=self.instance.pk).filter(
+                site=site, path=path
+            ).exists()
+        else:
+            search = Url.objects.filter(site=site, path=path).exists()
+
+        if search:
             raise forms.ValidationError('Url já cadastrada.')
 
         return path

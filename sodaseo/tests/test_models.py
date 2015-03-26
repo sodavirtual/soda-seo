@@ -41,3 +41,5 @@ class TestSeo(TestCase):
     def test_create_model(self):
         seo = mommy.make(Seo)
         self.assertEqual(smart_text(seo), seo.title)
+        data = seo.to_dict()
+        self.assertTrue(data)

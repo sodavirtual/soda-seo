@@ -33,7 +33,7 @@ class SeoInline(GenericStackedInline):
         ('Twitter Card', {
             'fields': (
                 'twitter_card', 'twitter_site', 'twitter_title',
-                'twitter_description', 'twitter_image', 'twitter_url'
+                'twitter_description', 'twitter_creator', 'twitter_image'
             )
         }),
     )
