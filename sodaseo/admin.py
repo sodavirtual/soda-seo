@@ -3,8 +3,8 @@ from __future__ import unicode_literals
 from django.contrib import admin
 from django.contrib.contenttypes.generic import GenericStackedInline
 
-from sodaseo.models import Seo, Config, Template
-from sodaseo.forms import SeoForm, ConfigForm, TemplateForm
+from sodaseo.models import Seo, Config, Template, Url, Var
+from sodaseo.forms import SeoForm, ConfigForm, TemplateForm, UrlForm, VarForm
 
 
 class SeoInline(GenericStackedInline):
@@ -14,7 +14,9 @@ class SeoInline(GenericStackedInline):
     max_num = 1
     fieldsets = (
         (None, {
-            'fields': ('title', 'keywords', 'description', 'author')
+            'fields': (
+                'template', 'title', 'keywords', 'description', 'author'
+            )
         }),
         ('Open Graph', {
             'fields': (
@@ -35,6 +37,13 @@ class SeoInline(GenericStackedInline):
             )
         }),
     )
+
+
+class VarInline(admin.StackedInline):
+
+    model = Var
+    form = VarForm
+    extra = 1
 
 
 class ConfigAdmin(admin.ModelAdmin):
@@ -59,5 +68,17 @@ class TemplateAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
 
 
+class UrlAdmin(admin.ModelAdmin):
+
+    list_display = (
+        'path', 'site', 'created_at'
+    )
+    form = UrlForm
+    search_fields = ['path', ]
+    list_filter = ('site', )
+    inlines = [VarInline, SeoInline]
+
+
 admin.site.register(Config, ConfigAdmin)
 admin.site.register(Template, TemplateAdmin)
+admin.site.register(Url, UrlAdmin)

@@ -20,7 +20,7 @@ class CreateUpdateModel(models.Model):
 
 class Config(CreateUpdateModel):
 
-    site = models.OneToOneField(
+    site = models.ForeignKey(
         Site,
         verbose_name='site',
         related_name='sodaseo_config',
@@ -115,9 +115,8 @@ class Var(CreateUpdateModel):
         max_length=255
     )
 
-    description = models.CharField(
-        'descrição',
-        max_length=255
+    description = models.TextField(
+        'descrição'
     )
 
     def __unicode__(self):
@@ -130,6 +129,11 @@ class Var(CreateUpdateModel):
 
 
 class Seo(CreateUpdateModel):
+
+    template = models.ForeignKey(
+        'Template',
+        verbose_name='template'
+    )
 
     # base
     title = models.CharField(

@@ -2,7 +2,9 @@
 from __future__ import unicode_literals
 from django import forms
 
-from suit.widgets import SuitSplitDateTimeWidget, LinkedSelect
+from suit.widgets import (
+    SuitSplitDateTimeWidget, LinkedSelect, AutosizedTextarea
+)
 from django_ace import AceWidget
 
 from sodaseo.models import Config, Template, Url, Var, Seo
@@ -19,6 +21,16 @@ class ConfigForm(forms.ModelForm):
             ),
         }
         exclude = ()
+
+    def clean_site(self):
+        site = self.cleaned_data.get('site')
+
+        if Config.objects.filter(site=site).exists():
+            raise forms.ValidationError(
+                'Já existe uma configuração para esse site.'
+            )
+
+        return site
 
 
 class TemplateForm(forms.ModelForm):
@@ -45,11 +57,25 @@ class UrlForm(forms.ModelForm):
 
         exclude = ()
 
+    def clean_path(self):
+        site = self.cleaned_data.get('site')
+        path = self.cleaned_data.get('path')
+
+        if Url.objects.filter(site=site, path=path).exists():
+            raise forms.ValidationError('Url já cadastrada.')
+
+        return path
+
 
 class VarForm(forms.ModelForm):
 
     class Meta:
         model = Var
+        widgets = {
+            'description': AutosizedTextarea(
+                attrs={'rows': 3, 'class': 'input-xxlarge'}
+            ),
+        }
         exclude = ()
 
 
@@ -58,6 +84,7 @@ class SeoForm(forms.ModelForm):
     class Meta:
         model = Seo
         widgets = {
+            'template': LinkedSelect,
             'title': forms.TextInput(attrs={'class': 'input-xxlarge'}),
             'keywords': forms.TextInput(attrs={'class': 'input-xxlarge'}),
             'description': forms.TextInput(attrs={'class': 'input-xxlarge'}),

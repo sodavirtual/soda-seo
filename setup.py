@@ -10,6 +10,7 @@ requires = [
     'django-filer>=0.9.9',
     'django-ace>=1.0.2',
     'coverage>=3.7.1',
+    'model-mommy>=1.2.3',
     'South>=1.0.2',
 ]
 
