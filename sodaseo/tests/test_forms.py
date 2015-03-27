@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 from django.test import TestCase
 from django.contrib.sites.models import Site
 
-from sodaseo.forms import UrlForm, ConfigForm
+from sodaseo.forms import UrlForm, ConfigForm, TemplateForm
 
 
 class TestUrlForm(TestCase):

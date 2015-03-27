@@ -14,6 +14,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 import os
 import django
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+PROJECT_PATH = os.path.dirname(os.path.abspath(__file__))
 
 
 # Quick-start development settings - unsuitable for production
@@ -52,6 +53,7 @@ INSTALLED_APPS = (
     'easy_thumbnails',
     # local apps
     'sodaseo',
+    'posts',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -97,6 +99,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
 SITE_ID = 1
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -110,8 +114,16 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
 )
 
+TEMPLATE_DIRS = (
+    os.path.join(BASE_DIR, 'templates'),
+)
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+MEDIA_URL = '/media/'
+
 if django.VERSION < (1, 7, 0):
     INSTALLED_APPS += ('south', )
     MIGRATION_MODULES = {
-        'filer': 'filer.migrations_django',
+        'sodaseo': 'sodaseo.south_migrations',
     }

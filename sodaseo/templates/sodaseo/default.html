@@ -1,3 +1,4 @@
+{% load thumbnail %}
 <!-- Base -->
 {% if sodaseo.title %}
 <title>{{ sodaseo.title }}</title>
@@ -39,7 +40,7 @@
 {% endif %}
 
 {% if sodaseo.og_image %}
-<meta property="og:image" content="http://{{ request.get_host }}{{ sodaseo.og_image.url }}" />
+<meta property="og:image" content="http://{{ request.get_host }}{% thumbnail sodaseo.og_image 600x315 upscale crop="smart" %}" />
 {% endif %}
 
 {% if sodaseo.og_url %}
@@ -80,7 +81,7 @@
 {% endif %}
 
 {% if sodaseo.itemprop_image %}
-<meta itemprop="image" content="http://{{ request.get_host }}{{ sodaseo.itemprop_image.url }}">
+<meta itemprop="image" content="http://{{ request.get_host }}{% thumbnail sodaseo.itemprop_image 600x315 upscale crop="smart" %}">
 {% endif %}
 
 <!-- Twitter Card -->
@@ -105,5 +106,5 @@
 {% endif %}
 
 {% if sodaseo.twitter_image %}
-<meta name="twitter:image" content="http://{{ request.get_host }}{{ sodaseo.twitter_image.url }}">
+<meta name="twitter:image" content="http://{{ request.get_host }}{% thumbnail sodaseo.twitter_image 120x120 upscale crop="smart" %}">
 {% endif %}

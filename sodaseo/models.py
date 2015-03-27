@@ -3,9 +3,11 @@ from __future__ import unicode_literals
 from django.db import models
 from django.contrib.sites.models import Site
 from django.conf import settings
+from django.utils.encoding import python_2_unicode_compatible
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 
+import os
 from filer.fields.image import FilerImageField
 
 
@@ -18,6 +20,7 @@ class CreateUpdateModel(models.Model):
         abstract = True
 
 
+@python_2_unicode_compatible
 class Config(CreateUpdateModel):
 
     site = models.ForeignKey(
@@ -44,14 +47,24 @@ class Config(CreateUpdateModel):
         blank=True
     )
 
-    def __unicode__(self):
+    def __str__(self):
         return self.site_name
 
     class Meta:
         verbose_name = 'configuração'
         verbose_name_plural = 'configurações'
 
+    def to_dict(self):
+        data = {
+            'site_name': self.site_name,
+            'google_site_verification': self.google_site_verification,
+            'fb_appid': self.fb_appid
+        }
 
+        return data
+
+
+@python_2_unicode_compatible
 class Template(CreateUpdateModel):
 
     name = models.CharField(
@@ -69,7 +82,7 @@ class Template(CreateUpdateModel):
         'conteúdo'
     )
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     class Meta:
@@ -78,6 +91,7 @@ class Template(CreateUpdateModel):
         ordering = ['name']
 
 
+@python_2_unicode_compatible
 class Url(CreateUpdateModel):
 
     site = models.ForeignKey(
@@ -92,7 +106,7 @@ class Url(CreateUpdateModel):
         max_length=255
     )
 
-    def __unicode__(self):
+    def __str__(self):
         return self.path
 
     class Meta:
@@ -102,6 +116,7 @@ class Url(CreateUpdateModel):
         unique_together = ('site', 'path')
 
 
+@python_2_unicode_compatible
 class Var(CreateUpdateModel):
 
     url = models.ForeignKey(
@@ -119,7 +134,7 @@ class Var(CreateUpdateModel):
         'descrição'
     )
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     class Meta:
@@ -128,6 +143,7 @@ class Var(CreateUpdateModel):
         ordering = ['name']
 
 
+@python_2_unicode_compatible
 class Seo(CreateUpdateModel):
 
     template = models.ForeignKey(
@@ -287,7 +303,7 @@ class Seo(CreateUpdateModel):
     object_id = models.PositiveIntegerField()
     content_object = generic.GenericForeignKey('content_type', 'object_id')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
     class Meta:
@@ -295,36 +311,34 @@ class Seo(CreateUpdateModel):
         verbose_name_plural = 'entradas seo'
 
     def to_dict(self):
-        data = {
-            'template': self.template,
-            'title': self.title,
-            'keywords': self.keywords,
-            'description': self.description,
-            'author': self.author,
-            'og_site_name': self.og_site_name,
-            'og_title': self.og_title,
-            'og_type': self.og_type,
-            'og_image': self.og_image,
-            'og_url': self.og_url,
-            'og_description': self.og_description,
-            'article_published_time': self.article_published_time,
-            'article_modified_time': self.article_modified_time,
-            'article_section': self.article_section,
-            'article_tag': self.article_tag,
-            'itemprop_name': self.itemprop_name,
-            'itemprop_description': self.itemprop_description,
-            'itemprop_image': self.itemprop_image,
-            'twitter_card': self.twitter_card,
-            'twitter_site': self.twitter_site,
-            'twitter_title': self.twitter_title,
-            'twitter_description': self.twitter_description,
-            'twitter_image': self.twitter_image,
-            'twitter_creator': self.twitter_creator,
-        }
+        fields = (
+            'template', 'title', 'keywords', 'description', 'author',
+            'og_site_name', 'og_title', 'og_type', 'og_image', 'og_url',
+            'og_description', 'article_published_time',
+            'article_modified_time', 'article_section', 'article_tag',
+            'itemprop_name', 'itemprop_description', 'itemprop_image',
+            'twitter_card', 'twitter_site', 'twitter_title',
+            'twitter_description', 'twitter_image', 'twitter_creator',
+            'content_object'
 
-        try:
-            data['content_object'] = self.content_object
-        except AttributeError:
-            pass
+        )
+
+        data = {}
+
+        for field in fields:
+            try:
+                if getattr(self, field):
+                    data[field] = getattr(self, field)
+            except:
+                pass
 
         return data
+
+
+def get_default_template():
+    import sodaseo
+    template_dir = os.path.join(
+        os.path.dirname(sodaseo.__file__), 'templates/sodaseo/default.html'
+    )
+    f = open(template_dir)
+    return f.read()

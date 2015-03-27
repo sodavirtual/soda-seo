@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+
+{% block body %}
+
+{% for object in object_list %}
+<p>
+    <a href="{% url 'post_detail' object.pk %}">{{ object.title }}</a>
+</p>
+{% empty %}
+<p>Sem posts para exibir.</p>
+{% endfor %}
+
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+
+{% block body %}
+
+<p>
+    <strong>{{ object.title }}</strong>
+</p>
+
+{{ object.body|linebreaks }}
+
+{% endblock %}

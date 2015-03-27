@@ -6,10 +6,10 @@ from suit.widgets import (
     SuitSplitDateTimeWidget, LinkedSelect, AutosizedTextarea
 )
 from django_ace import AceWidget
-import os
-import sys
 
-from sodaseo.models import Config, Template, Url, Var, Seo
+from sodaseo.models import (
+    Config, Template, Url, Var, Seo, get_default_template
+)
 
 
 class ConfigForm(forms.ModelForm):
@@ -27,7 +27,13 @@ class ConfigForm(forms.ModelForm):
     def clean_site(self):
         site = self.cleaned_data.get('site')
 
-        if Config.objects.filter(site=site).exists():
+        if self.instance:
+            search = Config.objects.exclude(pk=self.instance.pk).filter(
+                site=site
+            ).exists()
+        else:
+            search = Config.objects.filter(site=site).exists()
+        if search:
             raise forms.ValidationError(
                 'Já existe uma configuração para esse site.'
             )
@@ -37,18 +43,10 @@ class ConfigForm(forms.ModelForm):
 
 class TemplateForm(forms.ModelForm):
 
-    def get_default_template(self):
-        import sodaseo
-        template_dir = os.path.join(
-            os.path.dirname(sodaseo.__file__), 'templates/sodaseo/default.html'
-        )
-        f = open(template_dir)
-        return f.read()
-
     def __init__(self, *args, **kwargs):
         super(TemplateForm, self).__init__(*args, **kwargs)
-        if not self.instance:
-            self.initial['body'] = self.get_default_template()
+        if not self.instance.pk:
+            self.initial['body'] = get_default_template()
 
     class Meta:
         model = Template

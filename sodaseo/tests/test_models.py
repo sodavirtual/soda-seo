@@ -5,7 +5,9 @@ from django.utils.encoding import smart_text
 
 from model_mommy import mommy
 
-from sodaseo.models import Config, Template, Url, Var, Seo
+from sodaseo.models import (
+    Config, Template, Url, Var, Seo, get_default_template
+)
 
 
 class TestConfig(TestCase):
@@ -13,6 +15,8 @@ class TestConfig(TestCase):
     def test_create_model(self):
         config = mommy.make(Config)
         self.assertEqual(smart_text(config), config.site_name)
+        data = config.to_dict()
+        self.assertTrue(data)
 
 
 class TestTemplate(TestCase):
@@ -42,4 +46,11 @@ class TestSeo(TestCase):
         seo = mommy.make(Seo)
         self.assertEqual(smart_text(seo), seo.title)
         data = seo.to_dict()
+        self.assertTrue(data)
+
+
+class TestGetDefaultTemplate(TestCase):
+
+    def test_function(self):
+        data = get_default_template()
         self.assertTrue(data)
