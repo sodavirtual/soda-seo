@@ -10,6 +10,7 @@ from django_ace import AceWidget
 from sodaseo.models import (
     Config, Template, Url, Var, Seo, get_default_template
 )
+from sodaseo.settings import SODA_SEO_URLS
 
 
 class ConfigForm(forms.ModelForm):
@@ -65,7 +66,7 @@ class UrlForm(forms.ModelForm):
     class Meta:
         model = Url
         widgets = {
-            'path': forms.TextInput(attrs={'class': 'input-xxlarge'})
+            'path': forms.Select(choices=SODA_SEO_URLS),
         }
 
         exclude = ()
