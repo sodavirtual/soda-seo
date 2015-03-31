@@ -1,9 +1,9 @@
 {% load thumbnail %}
+
 <!-- Base -->
+
 {% if sodaseo.title %}
 <title>{{ sodaseo.title }}</title>
-{% elif sodaseo.site_name %}
-<title>{{ sodaseo.site_name }}</title>
 {% endif %}
 
 {% if sodaseo.keywords %}
@@ -18,6 +18,8 @@
 <meta name="author" content="{{ sodaseo.author }}">
 {% endif %}
 
+<!-- Facebook/Google -->
+
 {% if sodaseo.google_site_verification %}
 <meta name="google-site-verification" content="{{ sodaseo.google_site_verification }}">
 {% endif %}
@@ -27,6 +29,7 @@
 {% endif %}
 
 <!-- OpenGraph -->
+
 {% if sodaseo.og_site_name %}
 <meta property="og:site_name" content="{{ sodaseo.og_site_name }}" />
 {% endif %}
@@ -85,6 +88,7 @@
 {% endif %}
 
 <!-- Twitter Card -->
+
 {% if sodaseo.twitter_card %}
 <meta name="twitter:card" content="{{ sodaseo.twitter_card }}">
 {% endif %}
