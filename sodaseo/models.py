@@ -165,8 +165,7 @@ class Seo(CreateUpdateModel):
 
     description = models.CharField(
         'description',
-        max_length=255,
-        blank=True
+        max_length=255
     )
 
     author = models.CharField(
