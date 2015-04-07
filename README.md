@@ -62,7 +62,7 @@ O sistema funciona usando a sintaxe de template do próprio Django, atualmente o
 <!-- Base -->
 
 {% if sodaseo.title %}
-<title>{{ sodaseo.title }}</title>
+<title>{{ sodaseo.title }} - {{ sodaseo.site_name }}</title>
 {% endif %}
 
 {% if sodaseo.keywords %}
@@ -206,15 +206,15 @@ Para isso, vamos criar um novo template em /admin/sodaseo/template/ e o seu cont
 
 {% if sodaseo.title %}
     {% if tag %}
-    <title>{{ sodaseo.title }} - Busca por tag {{ tag.name }}</title>
+    <title>{{ sodaseo.title }} - {{ sodaseo.site_name }} - Busca por tag {{ tag.name }}</title>
     {% elif categoria %}
-    <title>{{ sodaseo.title }} - Busca por categoria {{ categoria.name }}</title>
+    <title>{{ sodaseo.title }} - {{ sodaseo.site_name }} - Busca por categoria {{ categoria.name }}</title>
     {% elif arquivo %}
-    <title>{{ sodaseo.title }} - Busca por mês {{ arquivo }}</title>
+    <title>{{ sodaseo.title }} - {{ sodaseo.site_name }} - Busca por mês {{ arquivo }}</title>
     {% elif busca %}
-    <title>{{ sodaseo.title }} - Busca por termo {{ busca }}</title>
+    <title>{{ sodaseo.title }} - {{ sodaseo.site_name }} - Busca por termo {{ busca }}</title>
     {% else %}
-    <title>{{ sodaseo.title }}</title>
+    <title>{{ sodaseo.title }} - {{ sodaseo.site_name }}</title>
     {% endif %}
 {% endif %}
 
