@@ -15,7 +15,7 @@ class SeoInline(GenericStackedInline):
     fieldsets = (
         (None, {
             'fields': (
-                'template', 'title', 'keywords', 'description', 'author'
+                'template', 'title', 'description', 'keywords', 'author'
             )
         }),
         ('Open Graph', {
@@ -76,7 +76,7 @@ class UrlAdmin(admin.ModelAdmin):
     form = UrlForm
     search_fields = ['path', ]
     list_filter = ('site', )
-    inlines = [VarInline, SeoInline]
+    inlines = [SeoInline, ]
 
 
 admin.site.register(Config, ConfigAdmin)

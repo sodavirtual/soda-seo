@@ -12,6 +12,7 @@ requires = [
     'coverage>=3.7.1',
     'model-mommy>=1.2.3',
     'South>=1.0.2',
+    'six>=1.9.0',
 ]
 
 setup(

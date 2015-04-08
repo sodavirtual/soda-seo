@@ -106,6 +106,11 @@ class Url(CreateUpdateModel):
         max_length=255
     )
 
+    description = models.TextField(
+        'descrição',
+        blank=True
+    )
+
     def __str__(self):
         return self.path
 

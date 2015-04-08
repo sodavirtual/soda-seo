@@ -6,6 +6,7 @@ from django.template import Context, Template
 from django.contrib.contenttypes.models import ContentType
 
 from sodaseo.models import Config, Url, Seo, get_default_template
+from sodaseo.utils import convert_url
 
 
 register = template.Library()
@@ -35,7 +36,10 @@ def sodaseo_render_tags(context, site_id=1):
 
     # load url
     try:
-        url = Url.objects.get(site=site, path=request.path_info)
+        url = Url.objects.get(
+            site=site,
+            path=convert_url(request.get_full_path())
+        )
         url_sodaseo = Seo.objects.get(
             content_type=ContentType.objects.get_for_model(Url),
             object_id=url.pk
@@ -75,3 +79,10 @@ def sodaseo_render_tags(context, site_id=1):
         return t.render(c)
 
     return ''
+
+
+@register.simple_tag(takes_context=True)
+def sodaseo_render_value(context, value):
+    t = Template(value)
+    c = Context(context)
+    return t.render(c)

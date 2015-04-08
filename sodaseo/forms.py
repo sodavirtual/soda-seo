@@ -67,6 +67,9 @@ class UrlForm(forms.ModelForm):
         model = Url
         widgets = {
             'path': forms.Select(choices=SODA_SEO_URLS),
+            'description': AutosizedTextarea(
+                attrs={'rows': 3, 'class': 'input-xxlarge'}
+            ),
         }
 
         exclude = ()

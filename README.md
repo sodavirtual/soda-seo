@@ -58,23 +58,24 @@ O sistema funciona usando a sintaxe de template do próprio Django, atualmente o
 
 ```python
 {% load thumbnail %}
+{% load sodaseo_tags %}
 
 <!-- Base -->
 
 {% if sodaseo.title %}
-<title>{{ sodaseo.title }} - {{ sodaseo.site_name }}</title>
-{% endif %}
-
-{% if sodaseo.keywords %}
-<meta name="keywords" content="{{ sodaseo.keywords }}">
+<title>{% sodaseo_render_value sodaseo.title %}</title>
 {% endif %}
 
 {% if sodaseo.description %}
-<meta name="description" content="{{ sodaseo.description }}">
+<meta name="description" content="{% sodaseo_render_value sodaseo.description %}">
+{% endif %}
+
+{% if sodaseo.keywords %}
+<meta name="keywords" content="{% sodaseo_render_value sodaseo.keywords %}">
 {% endif %}
 
 {% if sodaseo.author %}
-<meta name="author" content="{{ sodaseo.author }}">
+<meta name="author" content="{% sodaseo_render_value sodaseo.author %}">
 {% endif %}
 
 <!-- Facebook/Google -->
@@ -90,15 +91,15 @@ O sistema funciona usando a sintaxe de template do próprio Django, atualmente o
 <!-- OpenGraph -->
 
 {% if sodaseo.og_site_name %}
-<meta property="og:site_name" content="{{ sodaseo.og_site_name }}" />
+<meta property="og:site_name" content="{% sodaseo_render_value sodaseo.og_site_name %}" />
 {% endif %}
 
 {% if sodaseo.og_title %}
-<meta property="og:title" content="{{ sodaseo.og_title }}" />
+<meta property="og:title" content="{% sodaseo_render_value sodaseo.og_title %}" />
 {% endif %}
 
 {% if sodaseo.og_type %}
-<meta property="og:type" content="{{ sodaseo.og_type }}" />
+<meta property="og:type" content="{% sodaseo_render_value sodaseo.og_type %}" />
 {% endif %}
 
 {% if sodaseo.og_image %}
@@ -106,40 +107,40 @@ O sistema funciona usando a sintaxe de template do próprio Django, atualmente o
 {% endif %}
 
 {% if sodaseo.og_url %}
-<meta property="og:url" content="{{ sodaseo.og_url }}" />
+<meta property="og:url" content="{% sodaseo_render_value sodaseo.og_url %}" />
 {% else %}
 <meta property="og:url" content="{{ request.build_absolute_uri }}" />
 {% endif %}
 
 {% if sodaseo.og_description %}
-<meta property="og:description" content="{{ sodaseo.og_description }}" />
+<meta property="og:description" content="{% sodaseo_render_value sodaseo.og_description %}" />
 {% endif %}
 
 {% if sodaseo.article_published_time %}
-<meta property="article:published_time" content="{{ sodaseo.article_published_time }}" />
+<meta property="article:published_time" content="{% sodaseo_render_value sodaseo.article_published_time %}" />
 {% endif %}
 
 {% if sodaseo.article_modified_time %}
-<meta property="article:modified_time" content="{{ sodaseo.article_modified_time }}" />
+<meta property="article:modified_time" content="{% sodaseo_render_value sodaseo.article_modified_time %}" />
 {% endif %}
 
 {% if sodaseo.article_section %}
-<meta property="article:section" content="{{ sodaseo.article_section }}" />
+<meta property="article:section" content="{% sodaseo_render_value sodaseo.article_section %}" />
 {% endif %}
 
 {% if sodaseo.article_tag %}
-<meta property="article:tag" content="{{ sodaseo.article_tag }}" />
+<meta property="article:tag" content="{% sodaseo_render_value sodaseo.article_tag %}" />
 {% endif %}
 
 <meta property="og:locale" content="pt_BR" />
 
 <!-- Google Plus -->
 {% if sodaseo.itemprop_name %}
-<meta itemprop="name" content="{{ sodaseo.itemprop_name }}">
+<meta itemprop="name" content="{% sodaseo_render_value sodaseo.itemprop_name %}">
 {% endif %}
 
 {% if sodaseo.itemprop_description %}
-<meta itemprop="description" content="{{ sodaseo.itemprop_description }}">
+<meta itemprop="description" content="{% sodaseo_render_value sodaseo.itemprop_description %}">
 {% endif %}
 
 {% if sodaseo.itemprop_image %}
@@ -149,23 +150,23 @@ O sistema funciona usando a sintaxe de template do próprio Django, atualmente o
 <!-- Twitter Card -->
 
 {% if sodaseo.twitter_card %}
-<meta name="twitter:card" content="{{ sodaseo.twitter_card }}">
+<meta name="twitter:card" content="{% sodaseo_render_value sodaseo.twitter_card %}">
 {% endif %}
 
 {% if sodaseo.twitter_site %}
-<meta name="twitter:site" content="{{ sodaseo.twitter_site }}">
+<meta name="twitter:site" content="{% sodaseo_render_value sodaseo.twitter_site %}">
 {% endif %}
 
 {% if sodaseo.twitter_title %}
-<meta name="twitter:title" content="{{ sodaseo.twitter_title }}">
+<meta name="twitter:title" content="{% sodaseo_render_value sodaseo.twitter_title %}">
 {% endif %}
 
 {% if sodaseo.twitter_description %}
-<meta name="twitter:description" content="{{ sodaseo.twitter_description }}">
+<meta name="twitter:description" content="{% sodaseo_render_value sodaseo.twitter_description %}">
 {% endif %}
 
 {% if sodaseo.twitter_creator %}
-<meta name="twitter:creator" content="{{ sodaseo.twitter_creator }}">
+<meta name="twitter:creator" content="{% sodaseo_render_value sodaseo.twitter_creator %}">
 {% endif %}
 
 {% if sodaseo.twitter_image %}
@@ -173,163 +174,38 @@ O sistema funciona usando a sintaxe de template do próprio Django, atualmente o
 {% endif %}
 ```
 
-No geral vamos trabalhar com estruturas de if/elif/else/endif nesse template. 
-
 Um objeto sodaseo é carregado e com ele temos todos os campos que foram cadastrados.
+
+Usamos a tag {% sodaseo_render_value valor %} para carregar as informações. Essa tag é responsável por processar as variáveis que são inseridas nos campos.
 
 ## Exemplo prático
 
 Vamos pensar em um aplicativo de blog que contém categorias, tags, posts e arquivos por mês/ano.
 
-Nesse app inicialmente teremos as seguintes urls:
+Nesse app teremos as seguintes urls:
 
-* /blog/ - Lista com todos os posts + paginação
+* /blog/ - Lista com todos os posts
+* /blog/?page={{ page }} - Lista com todos os posts com paginação
+* /blog/?tag={{ tag }} - Filtro por tag
+* /blog/?tag={{ tag }}&page={{ page }} - Filtro por tag com paginação
+* /blog/?categoria={{ categoria }} - Filtro por categoria
+* /blog/?categoria={{ categoria }}&page={{ page }} - Filtro por categoria com paginação
+* /blog/?arquivo={{ arquivo }} - Filtro por mês/ano
+* /blog/?arquivo={{ arquivo }}&page={{ page }} - Filtro por mês/ano com paginação
+* /blog/?busca={{ busca }} - Filtro por termo
+* /blog/?busca={{ busca }}&page={{ page }} - Filtro por termo com paginação
 * /blog/slug/ - Detalhe de um post específico
 
-Para o /blog/ é só cadastrar uma configuração para essa mesma url em /admin/sodaseo/url/. Já no caso do /blog/slug/ a configuração é feita no próprio cadastro do post.
+Cada url dessa vai estar cadastrada no sistema, com exceção do /blog/slug/, nesse caso as informações vem da configuração no próprio post.
 
-Mas as configurações não param por ai, no caso do /blog/ existem vários filtros que são aplicados a essa url:
+## Variáveis globais
 
-* /blog/?tag=tag1 - Filtra os posts por tag.
-* /blog/?categoria=categoria-1 - Filtra os posts por categoria.
-* /blog/?arquivo=04/2015 - Filtra os posts por mês/ano.
-* /blog/?busca=busca - Filtra os posts por busca.
-* /blog/?page=2 - Paginação, nesse caso, a página 2.
+Os campos definidos na configuração em /admin/sodaseo/config/ se tornam globais, são esses os campos:
 
-Nesse caso, é interessante que seja possível mudar algumas tags de acordo com esses filtros, nesse exemplo vamos alterar apenas a tag title a título de exemplo.
+* {{ sodaseo.site_name }} - Nome do site.
+* {{ sodaseo.google_site_verification }} - Código para o google webtools
+* {{ sodaseo.fb_appid }} - App id do facebook.
 
-Uma informação importante é que nesse caso, o filtro de paginação pode ser combinado com qualquer um dos outros filtros.
+Geralmente usamos bastante o {{ sodaseo.site_name }} nos campos.
 
-Vamos criar um novo template em /admin/sodaseo/template/ e o seu conteúdo será esse:
-
-```python
-{% load thumbnail %}
-
-<!-- Base -->
-
-{% if sodaseo.title %}
-    {% if tag %}
-    <title>{{ sodaseo.title }} - {{ sodaseo.site_name }} - Busca por tag {{ tag.name }} {% if page %}- página {{ page }}{% endif %}</title>
-    {% elif categoria %}
-    <title>{{ sodaseo.title }} - {{ sodaseo.site_name }} - Busca por categoria {{ categoria.name }} {% if page %}- página {{ page }}{% endif %}</title>
-    {% elif arquivo %}
-    <title>{{ sodaseo.title }} - {{ sodaseo.site_name }} - Busca por mês {{ arquivo }} {% if page %}- página {{ page }}{% endif %}</title>
-    {% elif busca %}
-    <title>{{ sodaseo.title }} - {{ sodaseo.site_name }} - Busca por termo {{ busca }} {% if page %}- página {{ page }}{% endif %}</title>
-    {% else %}
-    <title>{{ sodaseo.title }} - {{ sodaseo.site_name }} {% if page %}- página {{ page }}{% endif %}</title>
-    {% endif %}
-{% endif %}
-
-{% if sodaseo.keywords %}
-<meta name="keywords" content="{{ sodaseo.keywords }}">
-{% endif %}
-
-{% if sodaseo.description %}
-<meta name="description" content="{{ sodaseo.description }}">
-{% endif %}
-
-{% if sodaseo.author %}
-<meta name="author" content="{{ sodaseo.author }}">
-{% endif %}
-
-<!-- Facebook/Google -->
-
-{% if sodaseo.google_site_verification %}
-<meta name="google-site-verification" content="{{ sodaseo.google_site_verification }}">
-{% endif %}
-
-{% if sodaseo.fb_appid %}
-<meta property="fb:app_id" content="{{ sodaseo.fb_appid }}" />
-{% endif %}
-
-<!-- OpenGraph -->
-
-{% if sodaseo.og_site_name %}
-<meta property="og:site_name" content="{{ sodaseo.og_site_name }}" />
-{% endif %}
-
-{% if sodaseo.og_title %}
-<meta property="og:title" content="{{ sodaseo.og_title }}" />
-{% endif %}
-
-{% if sodaseo.og_type %}
-<meta property="og:type" content="{{ sodaseo.og_type }}" />
-{% endif %}
-
-{% if sodaseo.og_image %}
-<meta property="og:image" content="http://{{ request.get_host }}{% thumbnail sodaseo.og_image 600x315 upscale crop="smart" %}" />
-{% endif %}
-
-{% if sodaseo.og_url %}
-<meta property="og:url" content="{{ sodaseo.og_url }}" />
-{% else %}
-<meta property="og:url" content="{{ request.build_absolute_uri }}" />
-{% endif %}
-
-{% if sodaseo.og_description %}
-<meta property="og:description" content="{{ sodaseo.og_description }}" />
-{% endif %}
-
-{% if sodaseo.article_published_time %}
-<meta property="article:published_time" content="{{ sodaseo.article_published_time }}" />
-{% endif %}
-
-{% if sodaseo.article_modified_time %}
-<meta property="article:modified_time" content="{{ sodaseo.article_modified_time }}" />
-{% endif %}
-
-{% if sodaseo.article_section %}
-<meta property="article:section" content="{{ sodaseo.article_section }}" />
-{% endif %}
-
-{% if sodaseo.article_tag %}
-<meta property="article:tag" content="{{ sodaseo.article_tag }}" />
-{% endif %}
-
-<meta property="og:locale" content="pt_BR" />
-
-<!-- Google Plus -->
-{% if sodaseo.itemprop_name %}
-<meta itemprop="name" content="{{ sodaseo.itemprop_name }}">
-{% endif %}
-
-{% if sodaseo.itemprop_description %}
-<meta itemprop="description" content="{{ sodaseo.itemprop_description }}">
-{% endif %}
-
-{% if sodaseo.itemprop_image %}
-<meta itemprop="image" content="http://{{ request.get_host }}{% thumbnail sodaseo.itemprop_image 600x315 upscale crop="smart" %}">
-{% endif %}
-
-<!-- Twitter Card -->
-
-{% if sodaseo.twitter_card %}
-<meta name="twitter:card" content="{{ sodaseo.twitter_card }}">
-{% endif %}
-
-{% if sodaseo.twitter_site %}
-<meta name="twitter:site" content="{{ sodaseo.twitter_site }}">
-{% endif %}
-
-{% if sodaseo.twitter_title %}
-<meta name="twitter:title" content="{{ sodaseo.twitter_title }}">
-{% endif %}
-
-{% if sodaseo.twitter_description %}
-<meta name="twitter:description" content="{{ sodaseo.twitter_description }}">
-{% endif %}
-
-{% if sodaseo.twitter_creator %}
-<meta name="twitter:creator" content="{{ sodaseo.twitter_creator }}">
-{% endif %}
-
-{% if sodaseo.twitter_image %}
-<meta name="twitter:image" content="http://{{ request.get_host }}{% thumbnail sodaseo.twitter_image 120x120 upscale crop="smart" %}">
-{% endif %}
-```
-
-Nas configurações da url o backend do projeto deve cadastrar quais variáveis estão disponíveis e como elas devem ser usadas.
-
-Para esse exemplo as informações sobre as variáveis tag, categoria, arquivo e busca, estariam cadastradas, bem como uma descrição de como deve ser o seu uso.
 

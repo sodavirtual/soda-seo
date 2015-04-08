@@ -22,7 +22,7 @@ class TestPostList(TestCase):
         )
         Seo.objects.create(
             content_object=config,
-            title='Site Name',
+            title='Site Name - {{ sodaseo.site_name }}',
             template=template
         )
         mommy.make(Post, _quantity=5)
@@ -32,7 +32,7 @@ class TestPostList(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.context['object_list']), 5)
         self.assertContains(
-            response, '<title>Site Name</title>'
+            response, '<title>Site Name - Site Name</title>'
         )
 
         url_obj = Url.objects.create(
@@ -40,14 +40,14 @@ class TestPostList(TestCase):
         )
         Seo.objects.create(
             content_object=url_obj,
-            title='Post List',
+            title='Post List - {{ sodaseo.site_name }}',
             template=template
         )
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.context['object_list']), 5)
         self.assertContains(
-            response, '<title>Post List</title>'
+            response, '<title>Post List - Site Name</title>'
         )
 
 
@@ -63,7 +63,7 @@ class TestPostDetail(TestCase):
         )
         Seo.objects.create(
             content_object=config,
-            title='Site Name',
+            title='Site Name - {{ sodaseo.site_name }}',
             template=template
         )
         post = mommy.make(Post)
@@ -73,7 +73,7 @@ class TestPostDetail(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['object'], post)
         self.assertContains(
-            response, '<title>Site Name</title>'
+            response, '<title>Site Name - Site Name</title>'
         )
 
         url_obj = Url.objects.create(
@@ -81,24 +81,24 @@ class TestPostDetail(TestCase):
         )
         Seo.objects.create(
             content_object=url_obj,
-            title='Post Detail',
+            title='Post Detail - {{ sodaseo.site_name }}',
             template=template
         )
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['object'], post)
         self.assertContains(
-            response, '<title>Post Detail</title>'
+            response, '<title>Post Detail - Site Name</title>'
         )
 
         Seo.objects.create(
             content_object=post,
-            title='Post Detail 2',
+            title='Post Detail 2 - {{ sodaseo.site_name }}',
             template=template
         )
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['object'], post)
         self.assertContains(
-            response, '<title>Post Detail 2</title>'
+            response, '<title>Post Detail 2 - Site Name</title>'
         )
