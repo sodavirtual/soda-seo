@@ -194,10 +194,13 @@ Mas as configurações não param por ai, no caso do /blog/ existem vários filt
 * /blog/?categoria=categoria-1 - Filtra os posts por categoria.
 * /blog/?arquivo=04/2015 - Filtra os posts por mês/ano.
 * /blog/?busca=busca - Filtra os posts por busca.
+* /blog/?page=2 - Paginação, nesse caso, a página 2.
 
-Nesse caso, é interessante que seja possível mudar algumas tags de acordo com esses filtros, nesse exemplo vamos alterar apenas as tags title e description.
+Nesse caso, é interessante que seja possível mudar algumas tags de acordo com esses filtros, nesse exemplo vamos alterar apenas a tag title a título de exemplo.
 
-Para isso, vamos criar um novo template em /admin/sodaseo/template/ e o seu conteúdo será esse:
+Uma informação importante é que nesse caso, o filtro de paginação pode ser combinado com qualquer um dos outros filtros.
+
+Vamos criar um novo template em /admin/sodaseo/template/ e o seu conteúdo será esse:
 
 ```python
 {% load thumbnail %}
@@ -206,15 +209,15 @@ Para isso, vamos criar um novo template em /admin/sodaseo/template/ e o seu cont
 
 {% if sodaseo.title %}
     {% if tag %}
-    <title>{{ sodaseo.title }} - {{ sodaseo.site_name }} - Busca por tag {{ tag.name }}</title>
+    <title>{{ sodaseo.title }} - {{ sodaseo.site_name }} - Busca por tag {{ tag.name }} {% if page %}- página {{ page }}{% endif %}</title>
     {% elif categoria %}
-    <title>{{ sodaseo.title }} - {{ sodaseo.site_name }} - Busca por categoria {{ categoria.name }}</title>
+    <title>{{ sodaseo.title }} - {{ sodaseo.site_name }} - Busca por categoria {{ categoria.name }} {% if page %}- página {{ page }}{% endif %}</title>
     {% elif arquivo %}
-    <title>{{ sodaseo.title }} - {{ sodaseo.site_name }} - Busca por mês {{ arquivo }}</title>
+    <title>{{ sodaseo.title }} - {{ sodaseo.site_name }} - Busca por mês {{ arquivo }} {% if page %}- página {{ page }}{% endif %}</title>
     {% elif busca %}
-    <title>{{ sodaseo.title }} - {{ sodaseo.site_name }} - Busca por termo {{ busca }}</title>
+    <title>{{ sodaseo.title }} - {{ sodaseo.site_name }} - Busca por termo {{ busca }} {% if page %}- página {{ page }}{% endif %}</title>
     {% else %}
-    <title>{{ sodaseo.title }} - {{ sodaseo.site_name }}</title>
+    <title>{{ sodaseo.title }} - {{ sodaseo.site_name }} {% if page %}- página {{ page }}{% endif %}</title>
     {% endif %}
 {% endif %}
 
@@ -223,17 +226,7 @@ Para isso, vamos criar um novo template em /admin/sodaseo/template/ e o seu cont
 {% endif %}
 
 {% if sodaseo.description %}
-    {% if tag %}
-    <meta name="description" content="{{ sodaseo.description }} - {{ tag.name }}">
-    {% elif categoria %}
-    <meta name="description" content="{{ sodaseo.description }} - {{ categoria.name }}">
-    {% elif arquivo %}
-    <meta name="description" content="{{ sodaseo.description }} - {{ arquivo }}">
-    {% elif busca %}
-    <meta name="description" content="{{ sodaseo.description }} - {{ busca }}">
-    {% else %}
-    <meta name="description" content="{{ sodaseo.description }}">
-    {% endif %}
+<meta name="description" content="{{ sodaseo.description }}">
 {% endif %}
 
 {% if sodaseo.author %}
