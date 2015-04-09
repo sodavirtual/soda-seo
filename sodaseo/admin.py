@@ -20,7 +20,7 @@ class SeoInline(GenericStackedInline):
         }),
         ('Open Graph', {
             'fields': (
-                'og_site_name', 'og_title', 'og_type', 'og_image', 'og_url',
+                'og_title', 'og_type', 'og_image',
                 'og_description', 'article_published_time',
                 'article_modified_time', 'article_section', 'article_tag'
             )
@@ -32,8 +32,63 @@ class SeoInline(GenericStackedInline):
         }),
         ('Twitter Card', {
             'fields': (
-                'twitter_card', 'twitter_site', 'twitter_title',
+                'twitter_title', 'twitter_description', 'twitter_creator',
+                'twitter_image'
+            )
+        }),
+    )
+
+
+class SeoConfigInline(SeoInline):
+
+    fieldsets = (
+        (None, {
+            'fields': (
+                'template', 'title', 'description', 'keywords', 'author'
+            )
+        }),
+        ('Open Graph', {
+            'fields': (
+                'og_site_name', 'og_title', 'og_type', 'og_image',
+                'og_description',
+            )
+        }),
+        ('Google+', {
+            'fields': (
+                'itemprop_name', 'itemprop_description', 'itemprop_image'
+            )
+        }),
+        ('Twitter Card', {
+            'fields': (
+                'twitter_site', 'twitter_title',
                 'twitter_description', 'twitter_creator', 'twitter_image'
+            )
+        }),
+    )
+
+
+class SeoUrlInline(SeoInline):
+
+    fieldsets = (
+        (None, {
+            'fields': (
+                'template', 'title', 'description', 'keywords', 'author'
+            )
+        }),
+        ('Open Graph', {
+            'fields': (
+                'og_title', 'og_type', 'og_image', 'og_description',
+            )
+        }),
+        ('Google+', {
+            'fields': (
+                'itemprop_name', 'itemprop_description', 'itemprop_image'
+            )
+        }),
+        ('Twitter Card', {
+            'fields': (
+                'twitter_title', 'twitter_description', 'twitter_creator',
+                'twitter_image'
             )
         }),
     )
@@ -55,7 +110,7 @@ class ConfigAdmin(admin.ModelAdmin):
     list_filter = ('site', )
     form = ConfigForm
     search_fields = ['site_name', ]
-    inlines = [SeoInline, ]
+    inlines = [SeoConfigInline, ]
 
 
 class TemplateAdmin(admin.ModelAdmin):
@@ -76,7 +131,7 @@ class UrlAdmin(admin.ModelAdmin):
     form = UrlForm
     search_fields = ['path', ]
     list_filter = ('site', )
-    inlines = [SeoInline, ]
+    inlines = [SeoUrlInline, ]
 
 
 admin.site.register(Config, ConfigAdmin)
