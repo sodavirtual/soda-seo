@@ -48,6 +48,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     # third party apps
     'django_ace',
+    'qurl',
     'filer',
     'mptt',
     'easy_thumbnails',

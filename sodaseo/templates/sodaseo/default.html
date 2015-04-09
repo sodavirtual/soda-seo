@@ -1,5 +1,6 @@
 {% load thumbnail %}
 {% load sodaseo_tags %}
+{% load qurl %}
 
 <!-- Base -->
 
@@ -17,6 +18,18 @@
 
 {% if sodaseo.author %}
 <meta name="author" content="{% sodaseo_render_value sodaseo.author %}">
+{% endif %}
+
+<link rel="canonical" href="http://{{ request.get_host }}{{ request.path }}" />
+
+{% if is_paginated %}
+    {% if page_obj.has_previous %}
+    <link rel="prev" href="http://{{ request.get_host }}{% qurl request.get_full_path page=page_obj.previous_page_number %}" />
+    {% endif %}
+
+    {% if page_obj.has_next %}
+    <link rel="next" href="http://{{ request.get_host }}{% qurl request.get_full_path page=page_obj.next_page_number %}" />
+    {% endif %}
 {% endif %}
 
 <!-- Facebook/Google -->
