@@ -7,87 +7,151 @@ from sodaseo.models import Seo, Config, Template, Url, Var
 from sodaseo.forms import SeoForm, ConfigForm, TemplateForm, UrlForm, VarForm
 
 
-class SeoInline(GenericStackedInline):
+class SeoAllInline(GenericStackedInline):
 
     model = Seo
     form = SeoForm
     max_num = 1
+
     fieldsets = (
         (None, {
             'fields': (
-                'template', 'title', 'description', 'keywords', 'author'
+                'template',
+                'title',
+                'description',
+                'keywords',
+                'author'
             )
         }),
         ('Open Graph', {
             'fields': (
-                'og_title', 'og_type', 'og_image',
-                'og_description', 'article_published_time',
-                'article_modified_time', 'article_section', 'article_tag'
+                'og_site_name',
+                'og_title',
+                'og_type',
+                'og_image',
+                'og_video',
+                'og_audio',
+                'og_description',
+                'og_see_also',
+                'article_published_time',
+                'article_modified_time',
+                'article_section',
+                'article_author',
+                'article_publisher',
+                'article_tag'
             )
         }),
         ('Google+', {
             'fields': (
-                'itemprop_name', 'itemprop_description', 'itemprop_image'
+                'itemprop_name',
+                'itemprop_description',
+                'itemprop_image'
             )
         }),
         ('Twitter Card', {
             'fields': (
-                'twitter_title', 'twitter_description', 'twitter_creator',
+                'twitter_site',
+                'twitter_title',
+                'twitter_description',
+                'twitter_creator',
                 'twitter_image'
             )
         }),
     )
 
 
-class SeoConfigInline(SeoInline):
+class SeoInline(SeoAllInline):
 
     fieldsets = (
         (None, {
             'fields': (
-                'template', 'title', 'description', 'keywords', 'author'
+                'template',
+                'title',
+                'description',
+                'keywords',
+                'author'
             )
         }),
         ('Open Graph', {
             'fields': (
-                'og_site_name', 'og_title', 'og_type', 'og_image',
+                # 'og_site_name',
+                'og_title',
+                'og_type',
+                'og_image',
+                'og_video',
+                'og_audio',
                 'og_description',
+                'og_see_also',
+                'article_published_time',
+                'article_modified_time',
+                'article_section',
+                'article_author',
+                'article_publisher',
+                'article_tag'
             )
         }),
         ('Google+', {
             'fields': (
-                'itemprop_name', 'itemprop_description', 'itemprop_image'
+                'itemprop_name',
+                'itemprop_description',
+                'itemprop_image'
             )
         }),
         ('Twitter Card', {
             'fields': (
-                'twitter_site', 'twitter_title',
-                'twitter_description', 'twitter_creator', 'twitter_image'
+                # 'twitter_site',
+                'twitter_title',
+                'twitter_description',
+                'twitter_creator',
+                'twitter_image'
             )
         }),
     )
 
 
-class SeoUrlInline(SeoInline):
+class SeoUrlInline(SeoAllInline):
 
     fieldsets = (
         (None, {
             'fields': (
-                'template', 'title', 'description', 'keywords', 'author'
+                'template',
+                'title',
+                'description',
+                'keywords',
+                'author'
             )
         }),
         ('Open Graph', {
             'fields': (
-                'og_title', 'og_type', 'og_image', 'og_description',
+                # 'og_site_name',
+                'og_title',
+                'og_type',
+                'og_image',
+                'og_video',
+                'og_audio',
+                'og_description',
+                'og_see_also',
+                # 'article_published_time',
+                # 'article_modified_time',
+                # 'article_section',
+                # 'article_author',
+                # 'article_publisher',
+                # 'article_tag'
             )
         }),
         ('Google+', {
             'fields': (
-                'itemprop_name', 'itemprop_description', 'itemprop_image'
+                'itemprop_name',
+                'itemprop_description',
+                'itemprop_image'
             )
         }),
         ('Twitter Card', {
             'fields': (
-                'twitter_title', 'twitter_description', 'twitter_creator',
+                # 'twitter_site',
+                'twitter_title',
+                'twitter_description',
+                'twitter_creator',
                 'twitter_image'
             )
         }),
@@ -104,13 +168,13 @@ class VarInline(admin.StackedInline):
 class ConfigAdmin(admin.ModelAdmin):
 
     list_display = (
-        'site_name', 'google_site_verification', 'fb_appid', 'site',
-        'created_at'
+        'site_name', 'google_site_verification', 'fb_appid', 'fb_profile_id',
+        'site', 'created_at'
     )
     list_filter = ('site', )
     form = ConfigForm
     search_fields = ['site_name', ]
-    inlines = [SeoConfigInline, ]
+    inlines = [SeoAllInline, ]
 
 
 class TemplateAdmin(admin.ModelAdmin):

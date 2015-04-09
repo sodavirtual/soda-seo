@@ -47,6 +47,12 @@ class Config(CreateUpdateModel):
         blank=True
     )
 
+    fb_profile_id = models.CharField(
+        'fb:profile_id',
+        max_length=255,
+        blank=True
+    )
+
     def __str__(self):
         return self.site_name
 
@@ -58,7 +64,8 @@ class Config(CreateUpdateModel):
         data = {
             'site_name': self.site_name,
             'google_site_verification': self.google_site_verification,
-            'fb_appid': self.fb_appid
+            'fb_appid': self.fb_appid,
+            'fb_profile_id': self.fb_profile_id
         }
 
         return data
@@ -206,6 +213,18 @@ class Seo(CreateUpdateModel):
         related_name='seo_og_image'
     )
 
+    og_video = models.URLField(
+        'og:video',
+        max_length=255,
+        blank=True
+    )
+
+    og_audio = models.URLField(
+        'og:audio',
+        max_length=255,
+        blank=True
+    )
+
     og_url = models.CharField(
         'og:url',
         max_length=255,
@@ -215,6 +234,11 @@ class Seo(CreateUpdateModel):
     og_description = models.CharField(
         'og:description',
         max_length=255,
+        blank=True
+    )
+
+    og_see_also = models.TextField(
+        'og:see_also',
         blank=True
     )
 
@@ -232,6 +256,18 @@ class Seo(CreateUpdateModel):
 
     article_section = models.CharField(
         'article:section',
+        max_length=255,
+        blank=True
+    )
+
+    article_author = models.CharField(
+        'article:author',
+        max_length=255,
+        blank=True
+    )
+
+    article_publisher = models.CharField(
+        'article:publisher',
         max_length=255,
         blank=True
     )
@@ -316,15 +352,36 @@ class Seo(CreateUpdateModel):
 
     def to_dict(self):
         fields = (
-            'template', 'title', 'keywords', 'description', 'author',
-            'og_site_name', 'og_title', 'og_type', 'og_image', 'og_url',
-            'og_description', 'article_published_time',
-            'article_modified_time', 'article_section', 'article_tag',
-            'itemprop_name', 'itemprop_description', 'itemprop_image',
-            'twitter_card', 'twitter_site', 'twitter_title',
-            'twitter_description', 'twitter_image', 'twitter_creator',
+            'template',
+            'title',
+            'keywords',
+            'description',
+            'author',
+            'og_site_name',
+            'og_title',
+            'og_type',
+            'og_image',
+            'og_video',
+            'og_audio',
+            'og_url',
+            'og_description',
+            'og_see_also',
+            'article_published_time',
+            'article_modified_time',
+            'article_section',
+            'article_author',
+            'article_publisher',
+            'article_tag',
+            'itemprop_name',
+            'itemprop_description',
+            'itemprop_image',
+            'twitter_card',
+            'twitter_site',
+            'twitter_title',
+            'twitter_description',
+            'twitter_creator',
+            'twitter_image',
             'content_object'
-
         )
 
         data = {}

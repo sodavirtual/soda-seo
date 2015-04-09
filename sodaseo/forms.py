@@ -120,9 +120,20 @@ class SeoForm(forms.ModelForm):
             'og_description': forms.TextInput(
                 attrs={'class': 'input-xxlarge'}
             ),
+            'og_see_also': AutosizedTextarea(
+                attrs={'rows': 3, 'class': 'input-xxlarge'}
+            ),
+            'og_video': forms.TextInput(attrs={'class': 'input-xxlarge'}),
+            'og_audio': forms.TextInput(attrs={'class': 'input-xxlarge'}),
             'article_published_time': SuitSplitDateTimeWidget,
             'article_modified_time': SuitSplitDateTimeWidget,
             'article_section': forms.TextInput(
+                attrs={'class': 'input-xxlarge'}
+            ),
+            'article_author': forms.TextInput(
+                attrs={'class': 'input-xxlarge'}
+            ),
+            'article_publisher': forms.TextInput(
                 attrs={'class': 'input-xxlarge'}
             ),
             'article_tag': forms.TextInput(attrs={'class': 'input-xxlarge'}),

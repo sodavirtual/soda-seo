@@ -86,3 +86,13 @@ def sodaseo_render_value(context, value):
     t = Template(value)
     c = Context(context)
     return t.render(c)
+
+
+@register.simple_tag
+def sodaseo_render_og_see_also(value):
+    template_str = '''{% for link in links %}
+        <meta property="og:see_also" content="{{ link }}" />
+    {% endfor %}'''
+    t = Template(template_str)
+    c = Context({'links': value.splitlines()})
+    return t.render(c)
