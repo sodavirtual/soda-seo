@@ -55,13 +55,22 @@ def sodaseo_render_tags(context, site_id=1):
     template = ''
 
     if config_sodaseo:
-        template = config_sodaseo['template'].body
+        try:
+            template = config_sodaseo['template'].body
+        except KeyError:
+            pass
 
     if url_sodaseo:
-        template = url_sodaseo['template'].body
+        try:
+            template = url_sodaseo['template'].body
+        except KeyError:
+            pass
 
     if sodaseo_ctx:
-        template = sodaseo_ctx['template'].body
+        try:
+            template = sodaseo_ctx['template'].body
+        except KeyError:
+            pass
 
     # create sodaseo object
     config_sodaseo.update(url_sodaseo)
