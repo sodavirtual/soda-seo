@@ -202,7 +202,11 @@ class Seo(CreateUpdateModel):
     og_type = models.CharField(
         'og:type',
         max_length=255,
-        blank=True
+        blank=True,
+        choices=(
+            ('website', 'website'),
+            ('article', 'article'),
+        ),
     )
 
     og_image = FilerImageField(

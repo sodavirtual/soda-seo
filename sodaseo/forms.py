@@ -115,7 +115,7 @@ class SeoForm(forms.ModelForm):
             'author': forms.TextInput(attrs={'class': 'input-xxlarge'}),
             'og_site_name': forms.TextInput(attrs={'class': 'input-xxlarge'}),
             'og_title': forms.TextInput(attrs={'class': 'input-xxlarge'}),
-            'og_type': forms.TextInput(attrs={'class': 'input-xxlarge'}),
+            # 'og_type': forms.TextInput(attrs={'class': 'input-xxlarge'}),
             'og_url': forms.TextInput(attrs={'class': 'input-xxlarge'}),
             'og_description': forms.TextInput(
                 attrs={'class': 'input-xxlarge'}

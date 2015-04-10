@@ -26,35 +26,35 @@ class SeoAllInline(GenericStackedInline):
         ('Open Graph', {
             'fields': (
                 'og_site_name',
-                'og_title',
+                # 'og_title',
                 'og_type',
-                'og_image',
-                'og_video',
-                'og_audio',
-                'og_description',
-                'og_see_also',
-                'article_published_time',
-                'article_modified_time',
-                'article_section',
-                'article_author',
-                'article_publisher',
-                'article_tag'
+                # 'og_image',
+                # 'og_video',
+                # 'og_audio',
+                # 'og_description',
+                # 'og_see_also',
+                # 'article_published_time',
+                # 'article_modified_time',
+                # 'article_section',
+                # 'article_author',
+                # 'article_publisher',
+                #'article_tag'
             )
         }),
-        ('Google+', {
-            'fields': (
-                'itemprop_name',
-                'itemprop_description',
-                'itemprop_image'
-            )
-        }),
+        #('Google+', {
+        #    'fields': (
+        #        'itemprop_name',
+        #        'itemprop_description',
+        #        'itemprop_image'
+        #    )
+        #}),
         ('Twitter Card', {
             'fields': (
                 'twitter_site',
-                'twitter_title',
-                'twitter_description',
-                'twitter_creator',
-                'twitter_image'
+                # 'twitter_title',
+                # 'twitter_description',
+                # 'twitter_creator',
+                # 'twitter_image'
             )
         }),
     )
@@ -83,7 +83,7 @@ class SeoInline(SeoAllInline):
                 'og_description',
                 'og_see_also',
                 'article_published_time',
-                'article_modified_time',
+                # 'article_modified_time',
                 'article_section',
                 'article_author',
                 'article_publisher',
