@@ -1,6 +1,6 @@
 {% load sodaseo_tags %}
 <!doctype html>
-<html lang="pt-br">
+<html lang="pt-br" {% if sodaseo.itemscope_itemtype %}itemscope itemtype="{{ sodaseo.itemscope_itemtype }}"{% endif %}>
 <head>
   <meta charset="utf-8">
   {% sodaseo_render_tags site_id=1 %}

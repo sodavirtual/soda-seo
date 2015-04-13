@@ -114,7 +114,7 @@ class Url(CreateUpdateModel):
     )
 
     description = models.TextField(
-        'descrição',
+        'instruções de ajuda',
         blank=True
     )
 
@@ -283,6 +283,24 @@ class Seo(CreateUpdateModel):
     )
 
     # google+
+    itemscope_itemtype = models.CharField(
+        'itemscope itemtype',
+        max_length=255,
+        blank=True,
+        choices=(
+            ('http://schema.org/Article', 'Article'),
+            ('http://schema.org/Blog', 'Blog'),
+            ('http://schema.org/Book', 'Book'),
+            ('http://schema.org/Event', 'Event'),
+            ('http://schema.org/LocalBusiness', 'LocalBusiness'),
+            ('http://schema.org/Organization', 'Organization'),
+            ('http://schema.org/Person', 'Person'),
+            ('http://schema.org/Product', 'Product'),
+            ('http://schema.org/Review', 'Review'),
+            ('http://schema.org/Other', 'Other'),
+            ('http://schema.org/WebSite', 'WebSite'),
+        )
+    )
     itemprop_name = models.CharField(
         'itemprop=name',
         max_length=255,
@@ -365,8 +383,8 @@ class Seo(CreateUpdateModel):
             'og_title',
             'og_type',
             'og_image',
-            'og_video',
-            'og_audio',
+            # 'og_video',
+            # 'og_audio',
             'og_url',
             'og_description',
             'og_see_also',
@@ -376,6 +394,7 @@ class Seo(CreateUpdateModel):
             'article_author',
             'article_publisher',
             'article_tag',
+            'itemscope_itemtype',
             'itemprop_name',
             'itemprop_description',
             'itemprop_image',
