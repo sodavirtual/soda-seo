@@ -43,6 +43,23 @@ INSTALLED_APPS = (
 )
 ```
 
+No base.html inserir a tag do sodaseo
+
+```python
+{% load sodaseo_tags %}
+<!doctype html>
+<html lang="pt-br" {% if sodaseo.itemscope_itemtype %}itemscope itemtype="{{ sodaseo.itemscope_itemtype }}"{% endif %}>
+<head>
+  <meta charset="utf-8">
+  {% sodaseo_render_tags site_id=1 %}
+</head>
+
+<body>
+  {% block body %}{% endblock %}
+</body>
+</html>
+```
+
 ## Como Funciona
 
 O funcionamento é bastante simples, os passos iniciais são esses:
@@ -51,132 +68,6 @@ O funcionamento é bastante simples, os passos iniciais são esses:
 2. Configurar as informações básicas do site em /admin/sodaseo/config/.
 3. Criar a configuração para as urls do site em /admin/sodaseo/url/.
 4. Criar a configuração para os objetos do site. Exemplo: Post de um Blog.
-
-## Template padrão
-
-O sistema funciona usando a sintaxe de template do próprio Django, atualmente o template padrão é esse:
-
-```python
-{% load thumbnail %}
-{% load sodaseo_tags %}
-
-<!-- Base -->
-
-{% if sodaseo.title %}
-<title>{% sodaseo_render_value sodaseo.title %}</title>
-{% endif %}
-
-{% if sodaseo.description %}
-<meta name="description" content="{% sodaseo_render_value sodaseo.description %}">
-{% endif %}
-
-{% if sodaseo.keywords %}
-<meta name="keywords" content="{% sodaseo_render_value sodaseo.keywords %}">
-{% endif %}
-
-{% if sodaseo.author %}
-<meta name="author" content="{% sodaseo_render_value sodaseo.author %}">
-{% endif %}
-
-<!-- Facebook/Google -->
-
-{% if sodaseo.google_site_verification %}
-<meta name="google-site-verification" content="{{ sodaseo.google_site_verification }}">
-{% endif %}
-
-{% if sodaseo.fb_appid %}
-<meta property="fb:app_id" content="{{ sodaseo.fb_appid }}" />
-{% endif %}
-
-<!-- OpenGraph -->
-
-{% if sodaseo.og_site_name %}
-<meta property="og:site_name" content="{% sodaseo_render_value sodaseo.og_site_name %}" />
-{% endif %}
-
-{% if sodaseo.og_title %}
-<meta property="og:title" content="{% sodaseo_render_value sodaseo.og_title %}" />
-{% endif %}
-
-{% if sodaseo.og_type %}
-<meta property="og:type" content="{% sodaseo_render_value sodaseo.og_type %}" />
-{% endif %}
-
-{% if sodaseo.og_image %}
-<meta property="og:image" content="http://{{ request.get_host }}{% thumbnail sodaseo.og_image 600x315 upscale crop="smart" %}" />
-{% endif %}
-
-{% if sodaseo.og_url %}
-<meta property="og:url" content="{% sodaseo_render_value sodaseo.og_url %}" />
-{% else %}
-<meta property="og:url" content="{{ request.build_absolute_uri }}" />
-{% endif %}
-
-{% if sodaseo.og_description %}
-<meta property="og:description" content="{% sodaseo_render_value sodaseo.og_description %}" />
-{% endif %}
-
-{% if sodaseo.article_published_time %}
-<meta property="article:published_time" content="{% sodaseo_render_value sodaseo.article_published_time %}" />
-{% endif %}
-
-{% if sodaseo.article_modified_time %}
-<meta property="article:modified_time" content="{% sodaseo_render_value sodaseo.article_modified_time %}" />
-{% endif %}
-
-{% if sodaseo.article_section %}
-<meta property="article:section" content="{% sodaseo_render_value sodaseo.article_section %}" />
-{% endif %}
-
-{% if sodaseo.article_tag %}
-<meta property="article:tag" content="{% sodaseo_render_value sodaseo.article_tag %}" />
-{% endif %}
-
-<meta property="og:locale" content="pt_BR" />
-
-<!-- Google Plus -->
-{% if sodaseo.itemprop_name %}
-<meta itemprop="name" content="{% sodaseo_render_value sodaseo.itemprop_name %}">
-{% endif %}
-
-{% if sodaseo.itemprop_description %}
-<meta itemprop="description" content="{% sodaseo_render_value sodaseo.itemprop_description %}">
-{% endif %}
-
-{% if sodaseo.itemprop_image %}
-<meta itemprop="image" content="http://{{ request.get_host }}{% thumbnail sodaseo.itemprop_image 600x315 upscale crop="smart" %}">
-{% endif %}
-
-<!-- Twitter Card -->
-
-{% if sodaseo.twitter_card %}
-<meta name="twitter:card" content="{% sodaseo_render_value sodaseo.twitter_card %}">
-{% endif %}
-
-{% if sodaseo.twitter_site %}
-<meta name="twitter:site" content="{% sodaseo_render_value sodaseo.twitter_site %}">
-{% endif %}
-
-{% if sodaseo.twitter_title %}
-<meta name="twitter:title" content="{% sodaseo_render_value sodaseo.twitter_title %}">
-{% endif %}
-
-{% if sodaseo.twitter_description %}
-<meta name="twitter:description" content="{% sodaseo_render_value sodaseo.twitter_description %}">
-{% endif %}
-
-{% if sodaseo.twitter_creator %}
-<meta name="twitter:creator" content="{% sodaseo_render_value sodaseo.twitter_creator %}">
-{% endif %}
-
-{% if sodaseo.twitter_image %}
-<meta name="twitter:image" content="http://{{ request.get_host }}{% thumbnail sodaseo.twitter_image 120x120 upscale crop="smart" %}">
-{% endif %}
-```
-
-Um objeto sodaseo é carregado e com ele temos todos os campos que foram cadastrados.
-
-Usamos a tag {% sodaseo_render_value valor %} para carregar as informações. Essa tag é responsável por processar as variáveis que são inseridas nos campos.
 
 ## Exemplo prático
 
@@ -205,7 +96,6 @@ Os campos definidos na configuração em /admin/sodaseo/config/ se tornam globai
 * {{ sodaseo.site_name }} - Nome do site.
 * {{ sodaseo.google_site_verification }} - Código para o google webtools
 * {{ sodaseo.fb_appid }} - App id do facebook.
+* {{ sodaseo.fb_profile_id }} - Profile id do facebook.
 
 Geralmente usamos bastante o {{ sodaseo.site_name }} nos campos.
-
-
