@@ -10,3 +10,9 @@ SODA_SEO_URLS = getattr(
         ('/', '/ - Página inicial'),
     )
 )
+
+SODA_SEO_I18N = getattr(
+    settings,
+    'SODA_SEO_I18N',
+    False
+)

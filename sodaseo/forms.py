@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django import forms
+from django.conf import settings
 
 from suit.widgets import (
     SuitSplitDateTimeWidget, LinkedSelect, AutosizedTextarea
@@ -10,7 +11,7 @@ from django_ace import AceWidget
 from sodaseo.models import (
     Config, Template, Url, Var, Seo, get_default_template
 )
-from sodaseo.settings import SODA_SEO_URLS
+from sodaseo.settings import SODA_SEO_URLS, SODA_SEO_I18N
 
 
 class ConfigForm(forms.ModelForm):
@@ -66,7 +67,7 @@ class UrlForm(forms.ModelForm):
     class Meta:
         model = Url
         widgets = {
-            'path': forms.Select(choices=SODA_SEO_URLS),
+            'path': forms.Select(choices=sorted(SODA_SEO_URLS)),
             'description': AutosizedTextarea(
                 attrs={'rows': 3, 'class': 'input-xxlarge'}
             ),
@@ -104,6 +105,16 @@ class VarForm(forms.ModelForm):
 
 
 class SeoForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super(SeoForm, self).__init__(*args, **kwargs)
+        if 'language' in self.fields:
+            self.fields['language'].required = True
+            self.fields['language'].widget = forms.Select(
+                choices=settings.LANGUAGES
+            )
+            if not self.fields['language'].initial:
+                self.fields['language'].initial = settings.LANGUAGE_CODE
 
     class Meta:
         model = Seo

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+from django.utils.translation import ugettext_lazy as _
 """
 Django settings for testapp project.
 
@@ -123,8 +124,15 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 MEDIA_URL = '/media/'
 
+LANGUAGES = (
+    ('pt-br', _(u'Português')),
+    ('en', _(u'Inglês')),
+)
+
 if django.VERSION < (1, 7, 0):
     INSTALLED_APPS += ('south', )
     MIGRATION_MODULES = {
         'sodaseo': 'sodaseo.south_migrations',
     }
+
+SODA_SEO_I18N = True

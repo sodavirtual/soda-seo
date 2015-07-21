@@ -2,9 +2,11 @@
 from __future__ import unicode_literals
 from django.contrib import admin
 from django.contrib.contenttypes.generic import GenericStackedInline
+from django.conf import settings
 
 from sodaseo.models import Seo, Config, Template, Url, Var
 from sodaseo.forms import SeoForm, ConfigForm, TemplateForm, UrlForm, VarForm
+from sodaseo.settings import SODA_SEO_I18N
 
 
 class SeoAllInline(GenericStackedInline):
@@ -12,10 +14,12 @@ class SeoAllInline(GenericStackedInline):
     model = Seo
     form = SeoForm
     max_num = 1
+    extra = 0
 
     fieldsets = (
         (None, {
             'fields': (
+                'language',
                 'template',
                 'title',
                 'description',
@@ -60,6 +64,14 @@ class SeoAllInline(GenericStackedInline):
         }),
     )
 
+    def get_max_num(self, request, obj=None, **kwargs):
+        max_num = self.max_num
+
+        if SODA_SEO_I18N:
+            max_num = len(settings.LANGUAGES)
+
+        return max_num
+
 
 class SeoInline(SeoAllInline):
 
@@ -69,6 +81,7 @@ class SeoInline(SeoAllInline):
     fieldsets = (
         (None, {
             'fields': (
+                'language',
                 'template',
                 'title',
                 'description',
@@ -119,6 +132,7 @@ class SeoUrlInline(SeoAllInline):
     fieldsets = (
         (None, {
             'fields': (
+                'language',
                 'template',
                 'title',
                 'description',

@@ -163,6 +163,13 @@ class Seo(CreateUpdateModel):
         verbose_name='template'
     )
 
+    language = models.CharField(
+        'Idioma',
+        max_length=10,
+        blank=True,
+        db_index=True
+    )
+
     # base
     title = models.CharField(
         'title',
@@ -371,6 +378,7 @@ class Seo(CreateUpdateModel):
     class Meta:
         verbose_name = 'entrada seo'
         verbose_name_plural = 'entradas seo'
+        ordering = ('created_at', )
 
     def to_dict(self):
         fields = (
