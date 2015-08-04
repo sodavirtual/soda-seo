@@ -11,7 +11,7 @@ from django_ace import AceWidget
 from sodaseo.models import (
     Config, Template, Url, Var, Seo, get_default_template
 )
-from sodaseo.settings import SODA_SEO_URLS, SODA_SEO_I18N
+from sodaseo.settings import SODA_SEO_URLS, SODA_SEO_LANGUAGES
 
 
 class ConfigForm(forms.ModelForm):
@@ -111,7 +111,7 @@ class SeoForm(forms.ModelForm):
         if 'language' in self.fields:
             self.fields['language'].required = True
             self.fields['language'].widget = forms.Select(
-                choices=settings.LANGUAGES
+                choices=SODA_SEO_LANGUAGES
             )
             if not self.fields['language'].initial:
                 self.fields['language'].initial = settings.LANGUAGE_CODE

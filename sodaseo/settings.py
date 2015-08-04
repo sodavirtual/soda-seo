@@ -16,3 +16,9 @@ SODA_SEO_I18N = getattr(
     'SODA_SEO_I18N',
     False
 )
+
+SODA_SEO_LANGUAGES = getattr(
+    settings,
+    'SODA_SEO_LANGUAGES',
+    settings.LANGUAGES
+)
