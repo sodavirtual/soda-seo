@@ -147,3 +147,18 @@ def sodaseo_render_og_see_also(value):
     t = Template(template_str)
     c = Context({'links': value.splitlines()})
     return t.render(c)
+
+
+@register.inclusion_tag('sodaseo/analytics.html')
+def sodaseo_render_analytics():
+    google_analytics_id = ''
+
+    try:
+        config = Config.objects.all()[0]
+        google_analytics_id = config.google_analytics_id
+    except:
+        pass
+
+    return {
+        'google_analytics_id': google_analytics_id
+    }

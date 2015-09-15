@@ -18,7 +18,8 @@ class TestPostList(TestCase):
             name='default', slug='default', body=get_default_template()
         )
         config = Config.objects.create(
-            site_name='Site Name', site=site
+            site_name='Site Name', site=site,
+            google_analytics_id='UA-00000000-0'
         )
         Seo.objects.create(
             content_object=config,
@@ -34,6 +35,7 @@ class TestPostList(TestCase):
         self.assertContains(
             response, '<title>Site Name - Site Name</title>'
         )
+        self.assertContains(response, 'UA-00000000-0')
 
         url_obj = Url.objects.create(
             site=site, path='/posts/'

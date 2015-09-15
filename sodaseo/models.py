@@ -41,6 +41,12 @@ class Config(CreateUpdateModel):
         blank=True
     )
 
+    google_analytics_id = models.CharField(
+        'google-analytics-id',
+        max_length=255,
+        blank=True
+    )
+
     fb_appid = models.CharField(
         'fb:app_id',
         max_length=255,
@@ -64,6 +70,7 @@ class Config(CreateUpdateModel):
         data = {
             'site_name': self.site_name,
             'google_site_verification': self.google_site_verification,
+            'google_analytics_id': self.google_analytics_id,
             'fb_appid': self.fb_appid,
             'fb_profile_id': self.fb_profile_id
         }

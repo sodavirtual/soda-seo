@@ -56,6 +56,7 @@ No base.html inserir a tag do sodaseo
 
 <body>
   {% block body %}{% endblock %}
+  {% sodaseo_render_analytics %}
 </body>
 </html>
 ```
