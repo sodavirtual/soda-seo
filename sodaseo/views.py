@@ -39,11 +39,14 @@ class RenderTagsDetail(View):
 
         template_content = '''
         {% load sodaseo_tags %}
+        <!DOCTYPE html>
         <html>
         <head>
+        <meta charset="utf-8">
         {% sodaseo_render_tags site_id=1 %}
         </head>
-        <body></body>
+        <body>
+        </body>
         </html>
         '''
 
