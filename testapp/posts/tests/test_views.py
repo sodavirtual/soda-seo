@@ -104,3 +104,37 @@ class TestPostDetail(TestCase):
         self.assertContains(
             response, '<title>Post Detail 2 - Site Name</title>'
         )
+
+
+class TestRenderTagsDetail(TestCase):
+
+    def setUp(self):
+        self.url = reverse('render_tags_detail')
+
+    def test_render(self):
+        site = Site.objects.get_current()
+        template = Template.objects.create(
+            name='default', slug='default', body=get_default_template()
+        )
+        config = Config.objects.create(
+            site_name='Site Name', site=site
+        )
+        Seo.objects.create(
+            content_object=config,
+            title='Index - {{ sodaseo.site_name }}',
+            template=template
+        )
+        url_obj = Url.objects.create(
+            site=site, path='/sodaseo-render-tags/'
+        )
+        Seo.objects.create(
+            content_object=url_obj,
+            title='Render Tags - {{ sodaseo.site_name }}',
+            template=template
+        )
+
+        response = self.client.get(self.url)
+        self.assertContains(response, 'Index - Site Name')
+
+        response = self.client.get(self.url, {'url': '/sodaseo-render-tags/'})
+        self.assertContains(response, 'Render Tags - Site Name')

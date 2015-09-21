@@ -20,6 +20,10 @@ urlpatterns = patterns(
         r'^posts/(?P<pk>[0-9]+)/$', 'posts.views.post_detail',
         name='post_detail'
     ),
+    url(
+        r'^sodaseo/$', 'sodaseo.views.render_tags_detail',
+        name='render_tags_detail'
+    ),
 )
 
 
