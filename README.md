@@ -52,10 +52,12 @@ No base.html inserir a tag do sodaseo
 <head>
   <meta charset="utf-8">
   {% sodaseo_render_tags site_id=1 %}
+  {% sodaseo_render_extra_head %}
 </head>
 
 <body>
   {% block body %}{% endblock %}
+  {% sodaseo_render_extra_body %}
   {% sodaseo_render_analytics %}
 </body>
 </html>

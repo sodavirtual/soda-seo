@@ -15,7 +15,6 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 import os
 import django
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-PROJECT_PATH = os.path.dirname(os.path.abspath(__file__))
 
 
 # Quick-start development settings - unsuitable for production
@@ -125,8 +124,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 LANGUAGES = (
-    ('pt-br', _(u'Português')),
-    ('en', _(u'Inglês')),
+    ('pt-br', _('Português')),
+    ('en', _('Inglês')),
 )
 
 if django.VERSION < (1, 7, 0):

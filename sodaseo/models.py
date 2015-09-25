@@ -6,9 +6,12 @@ from django.conf import settings
 from django.utils.encoding import python_2_unicode_compatible
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
+from django.utils import translation
 
 import os
 from filer.fields.image import FilerImageField
+
+from sodaseo.utils import convert_url
 
 
 class CreateUpdateModel(models.Model):
@@ -56,6 +59,16 @@ class Config(CreateUpdateModel):
     fb_profile_id = models.CharField(
         'fb:profile_id',
         max_length=255,
+        blank=True
+    )
+
+    extra_head = models.TextField(
+        'extra head',
+        blank=True
+    )
+
+    extra_body = models.TextField(
+        'extra body',
         blank=True
     )
 
@@ -198,6 +211,14 @@ class Seo(CreateUpdateModel):
         'author',
         max_length=255,
         blank=True
+    )
+
+    image = FilerImageField(
+        null=True,
+        blank=True,
+        verbose_name='image',
+        on_delete=models.SET_NULL,
+        related_name='seo_image'
     )
 
     # opengraph
@@ -441,3 +462,69 @@ def get_default_template():
     )
     f = open(template_dir)
     return f.read()
+
+
+def get_sodaseo_context(request, context={}, site_id=1):
+    ctx = {}
+    config = None
+    config_context = {}
+    url = None
+    url_context = {}
+    language_code = translation.get_language()
+
+    # load site
+    try:
+        site = Site.objects.get(pk=site_id)
+    except Site.DoesNotExist:
+        return context
+
+    # load config
+    try:
+        config = Config.objects.filter(site=site)[0]
+    except:
+        pass
+
+    if config:
+        config_seo = Seo.objects.filter(
+            content_type=ContentType.objects.get_for_model(Config),
+            object_id=config.pk
+        )
+        config_seo_with_language = Seo.objects.filter(
+            content_type=ContentType.objects.get_for_model(Config),
+            object_id=config.pk,
+            language=language_code
+        )
+        if config_seo_with_language:
+            config_context.update(config_seo_with_language[0].to_dict())
+        elif config_seo:
+            config_context.update(config_seo[0].to_dict())
+        config_context.update(config.to_dict())
+
+    # load url
+    try:
+        url = Url.objects.filter(
+            site=site,
+            path=convert_url(request.get_full_path())
+        )[0]
+    except:
+        pass
+
+    if url:
+        url_seo = Seo.objects.filter(
+            content_type=ContentType.objects.get_for_model(Url),
+            object_id=url.pk
+        )
+        url_seo_with_language = Seo.objects.filter(
+            content_type=ContentType.objects.get_for_model(Url),
+            object_id=url.pk,
+            language=language_code
+        )
+        if url_seo_with_language:
+            url_context.update(url_seo_with_language[0].to_dict())
+        elif url_seo:
+            url_context.update(url_seo[0].to_dict())
+
+    ctx.update(config_context)
+    ctx.update(url_context)
+    ctx.update(context)
+    return ctx

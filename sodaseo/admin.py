@@ -24,7 +24,8 @@ class SeoAllInline(GenericStackedInline):
                 'title',
                 'description',
                 'keywords',
-                'author'
+                'author',
+                'image',
             )
         }),
         ('Open Graph', {
@@ -32,11 +33,11 @@ class SeoAllInline(GenericStackedInline):
                 'og_site_name',
                 # 'og_title',
                 'og_type',
-                'og_image',
+                # 'og_image',
                 # 'og_video',
                 # 'og_audio',
                 # 'og_description',
-                # 'og_see_also',
+                'og_see_also',
                 # 'article_published_time',
                 # 'article_modified_time',
                 # 'article_section',
@@ -50,16 +51,16 @@ class SeoAllInline(GenericStackedInline):
                 'itemscope_itemtype',
                 # 'itemprop_name',
                 # 'itemprop_description',
-                'itemprop_image'
+                # 'itemprop_image'
             )
         }),
         ('Twitter Card', {
             'fields': (
-                'twitter_site',
+                # 'twitter_site',
                 # 'twitter_title',
                 # 'twitter_description',
                 'twitter_creator',
-                'twitter_image'
+                # 'twitter_image'
             )
         }),
     )
@@ -86,18 +87,19 @@ class SeoInline(SeoAllInline):
                 'title',
                 'description',
                 'keywords',
-                'author'
+                'author',
+                'image',
             )
         }),
         ('Open Graph', {
             'fields': (
                 # 'og_site_name',
-                'og_title',
+                # 'og_title',
                 'og_type',
-                'og_image',
+                # 'og_image',
                 # 'og_video',
                 # 'og_audio',
-                'og_description',
+                # 'og_description',
                 'og_see_also',
                 'article_published_time',
                 # 'article_modified_time',
@@ -110,18 +112,18 @@ class SeoInline(SeoAllInline):
         ('Google+', {
             'fields': (
                 'itemscope_itemtype',
-                'itemprop_name',
-                'itemprop_description',
-                'itemprop_image'
+                # 'itemprop_name',
+                # 'itemprop_description',
+                # 'itemprop_image'
             )
         }),
         ('Twitter Card', {
             'fields': (
                 # 'twitter_site',
-                'twitter_title',
-                'twitter_description',
+                # 'twitter_title',
+                # 'twitter_description',
                 'twitter_creator',
-                'twitter_image'
+                # 'twitter_image'
             )
         }),
     )
@@ -137,18 +139,19 @@ class SeoUrlInline(SeoAllInline):
                 'title',
                 'description',
                 'keywords',
-                'author'
+                'author',
+                'image',
             )
         }),
         ('Open Graph', {
             'fields': (
                 # 'og_site_name',
-                'og_title',
+                # 'og_title',
                 'og_type',
-                'og_image',
+                # 'og_image',
                 # 'og_video',
                 # 'og_audio',
-                'og_description',
+                # 'og_description',
                 'og_see_also',
                 # 'article_published_time',
                 # 'article_modified_time',
@@ -161,18 +164,18 @@ class SeoUrlInline(SeoAllInline):
         ('Google+', {
             'fields': (
                 'itemscope_itemtype',
-                'itemprop_name',
-                'itemprop_description',
-                'itemprop_image'
+                # 'itemprop_name',
+                # 'itemprop_description',
+                # 'itemprop_image'
             )
         }),
         ('Twitter Card', {
             'fields': (
                 # 'twitter_site',
-                'twitter_title',
-                'twitter_description',
+                # 'twitter_title',
+                # 'twitter_description',
                 'twitter_creator',
-                'twitter_image'
+                # 'twitter_image'
             )
         }),
     )
