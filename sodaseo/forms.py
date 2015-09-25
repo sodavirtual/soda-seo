@@ -23,6 +23,12 @@ class ConfigForm(forms.ModelForm):
             'google_site_verification': forms.TextInput(
                 attrs={'class': 'input-xxlarge'}
             ),
+            'extra_head': AutosizedTextarea(
+                attrs={'rows': 3, 'class': 'input-xxlarge'}
+            ),
+            'body_head': AutosizedTextarea(
+                attrs={'rows': 3, 'class': 'input-xxlarge'}
+            ),
         }
         exclude = ()
 
