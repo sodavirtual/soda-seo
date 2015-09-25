@@ -26,7 +26,7 @@ class ConfigForm(forms.ModelForm):
             'extra_head': AutosizedTextarea(
                 attrs={'rows': 3, 'class': 'input-xxlarge'}
             ),
-            'body_head': AutosizedTextarea(
+            'extra_body': AutosizedTextarea(
                 attrs={'rows': 3, 'class': 'input-xxlarge'}
             ),
         }
