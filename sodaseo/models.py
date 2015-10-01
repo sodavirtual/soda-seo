@@ -415,6 +415,7 @@ class Seo(CreateUpdateModel):
             'keywords',
             'description',
             'author',
+            'image',
             'og_site_name',
             'og_title',
             'og_type',
