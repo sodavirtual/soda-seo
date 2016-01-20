@@ -6,8 +6,8 @@ version = sodaseo.__version__
 
 requires = [
     'Django>=1.6',
-    'django-suit==0.2.14',
-    'django-filer==0.9.12',
+    'django-suit==0.2.16',
+    'django-filer==1.0.6',
     'django-ace>=1.0.2',
     'django-qurl>=0.1.1',
     'coverage>=3.7.1',
