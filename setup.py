@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from setuptools import setup
+from setuptools import setup, find_packages
 import sodaseo
 
 version = sodaseo.__version__
@@ -21,7 +21,7 @@ setup(
     version=version,
     author='Allisson Azevedo',
     author_email='allisson@gmail.com',
-    packages=['sodaseo', ],
+    packages=find_packages(),
     license='MIT',
     description='Soda SEO',
     long_description='App para gerenciar as informações de SEO.',
