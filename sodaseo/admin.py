@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.contrib import admin
-from django.contrib.contenttypes.generic import GenericStackedInline
+from django.contrib.contenttypes.admin import GenericStackedInline
 from django.conf import settings
 
 from sodaseo.models import Seo, Config, Template, Url, Var
