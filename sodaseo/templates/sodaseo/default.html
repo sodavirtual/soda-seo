@@ -20,18 +20,16 @@
 <meta name="author" content="{% sodaseo_render_value sodaseo.author %}">
 {% endif %}
 
-{% if request %}
 <link rel="canonical" href="{{ request.build_absolute_uri }}" />
-{% endif %}
 
-{% if request and is_paginated %}
-	{% if page_obj.has_previous %}
-	<link rel="prev" href="{{ request.build_absolute_uri }}{% qurl request.get_full_path page=page_obj.previous_page_number %}" />
-	{% endif %}
+{% if is_paginated %}
+    {% if page_obj.has_previous %}
+    <link rel="prev" href="{{ request.build_absolute_uri }}{% qurl request.get_full_path page=page_obj.previous_page_number %}" />
+    {% endif %}
 
-	{% if page_obj.has_next %}
-	<link rel="next" href="{{ request.build_absolute_uri }}{% qurl request.get_full_path page=page_obj.next_page_number %}" />
-	{% endif %}
+    {% if page_obj.has_next %}
+    <link rel="next" href="{{ request.build_absolute_uri }}{% qurl request.get_full_path page=page_obj.next_page_number %}" />
+    {% endif %}
 {% endif %}
 
 <!-- Facebook/Google -->
@@ -78,7 +76,7 @@
 
 {% if sodaseo.og_url %}
 <meta property="og:url" content="{% sodaseo_render_value sodaseo.og_url %}" />
-{% elif request %}
+{% else %}
 <meta property="og:url" content="{{ request.build_absolute_uri }}" />
 {% endif %}
 
@@ -145,8 +143,6 @@
 <meta name="twitter:image:src" content="{% thumbnail sodaseo.image 440x220 upscale crop="smart" %}">
 {% endif %}
 
-{% if request %}
 <meta name="twitter:url" content="{{ request.build_absolute_uri }}" />
-{% endif %}
 
 <meta name="web_author" content="SODA Virtual, sodavirtual.com.br, contato@sodavirtual.com.br" />
