@@ -130,7 +130,8 @@ class Url(CreateUpdateModel):
 
     path = models.CharField(
         'caminho',
-        max_length=255
+        max_length=255,
+        help_text='Formato: /url-da-pagina/'
     )
 
     description = models.TextField(
