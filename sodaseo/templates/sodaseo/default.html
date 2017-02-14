@@ -20,15 +20,15 @@
 <meta name="author" content="{% sodaseo_render_value sodaseo.author %}">
 {% endif %}
 
-<link rel="canonical" href="http://{{ request.get_host }}{{ request.path }}" />
+<link rel="canonical" href="{{ request.build_absolute_uri }}" />
 
 {% if is_paginated %}
     {% if page_obj.has_previous %}
-    <link rel="prev" href="http://{{ request.get_host }}{% qurl request.get_full_path page=page_obj.previous_page_number %}" />
+    <link rel="prev" href="{{ request.build_absolute_uri }}{% qurl request.get_full_path page=page_obj.previous_page_number %}" />
     {% endif %}
 
     {% if page_obj.has_next %}
-    <link rel="next" href="http://{{ request.get_host }}{% qurl request.get_full_path page=page_obj.next_page_number %}" />
+    <link rel="next" href="{{ request.build_absolute_uri }}{% qurl request.get_full_path page=page_obj.next_page_number %}" />
     {% endif %}
 {% endif %}
 
@@ -61,7 +61,7 @@
 {% endif %}
 
 {% if sodaseo.image %}
-<meta property="og:image" content="http://{{ request.get_host }}{% thumbnail sodaseo.image 1200x630 upscale crop="smart" %}" />
+<meta property="og:image" content="{% thumbnail sodaseo.image 1200x630 upscale crop="smart" %}" />
 {% endif %}
 
 {% comment %}
@@ -116,7 +116,7 @@
 {% endif %}
 
 {% if sodaseo.image %}
-<meta itemprop="image" content="http://{{ request.get_host }}{% thumbnail sodaseo.image 497x279 upscale crop="smart" %}">
+<meta itemprop="image" content="{% thumbnail sodaseo.image 497x279 upscale crop="smart" %}">
 {% endif %}
 
 <!-- Twitter Card -->
@@ -140,7 +140,7 @@
 {% endif %}
 
 {% if sodaseo.image %}
-<meta name="twitter:image:src" content="http://{{ request.get_host }}{% thumbnail sodaseo.image 440x220 upscale crop="smart" %}">
+<meta name="twitter:image:src" content="{% thumbnail sodaseo.image 440x220 upscale crop="smart" %}">
 {% endif %}
 
 <meta name="twitter:url" content="{{ request.build_absolute_uri }}" />
