@@ -11,6 +11,9 @@ register = template.Library()
 
 @register.simple_tag(takes_context=True)
 def sodaseo_render_tags(context, site_id=1):
+    if 'request' not in context:
+        return ''
+
     sodaseo_ctx = context.get('sodaseo', {})
     request = context['request']
     ctx = get_sodaseo_context(request, sodaseo_ctx, site_id=site_id)
