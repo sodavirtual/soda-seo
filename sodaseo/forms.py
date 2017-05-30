@@ -41,6 +41,11 @@ class TemplateForm(forms.ModelForm):
 
     class Meta:
         model = Template
+        widgets = {
+            'body': AceWidget(
+                mode='django', width='640px', showprintmargin=False
+            ),
+        }
         exclude = ()
 
 
