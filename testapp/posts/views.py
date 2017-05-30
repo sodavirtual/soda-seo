@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
 from django.views.generic import ListView, DetailView
 from django.shortcuts import get_object_or_404
 
@@ -22,7 +20,3 @@ class PostDetailView(SodaSeoMixin, DetailView):
     def get_object(self):
         pk = self.kwargs.get('pk')
         return get_object_or_404(Post, pk=pk)
-
-
-post_list = PostListView.as_view()
-post_detail = PostDetailView.as_view()

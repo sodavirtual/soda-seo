@@ -1,11 +1,6 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
 from django import forms
 from django.conf import settings
 
-from suit.widgets import (
-    SuitSplitDateTimeWidget, LinkedSelect, AutosizedTextarea
-)
 from django_ace import AceWidget
 
 from sodaseo.models import (
@@ -18,18 +13,6 @@ class ConfigForm(forms.ModelForm):
 
     class Meta:
         model = Config
-        widgets = {
-            'site_name': forms.TextInput(attrs={'class': 'input-xxlarge'}),
-            'google_site_verification': forms.TextInput(
-                attrs={'class': 'input-xxlarge'}
-            ),
-            'extra_head': AutosizedTextarea(
-                attrs={'rows': 3, 'class': 'input-xxlarge'}
-            ),
-            'extra_body': AutosizedTextarea(
-                attrs={'rows': 3, 'class': 'input-xxlarge'}
-            ),
-        }
         exclude = ()
 
     def clean_site(self):
@@ -58,13 +41,6 @@ class TemplateForm(forms.ModelForm):
 
     class Meta:
         model = Template
-        widgets = {
-            'name': forms.TextInput(attrs={'class': 'input-xxlarge'}),
-            'slug': forms.TextInput(attrs={'class': 'input-xxlarge'}),
-            'body': AceWidget(
-                mode='django', width='640px', showprintmargin=False
-            ),
-        }
         exclude = ()
 
 
@@ -72,12 +48,6 @@ class UrlForm(forms.ModelForm):
 
     class Meta:
         model = Url
-        widgets = {
-            'description': AutosizedTextarea(
-                attrs={'rows': 3, 'class': 'input-xxlarge'}
-            ),
-        }
-
         exclude = ()
 
     def clean_path(self):
@@ -101,11 +71,6 @@ class VarForm(forms.ModelForm):
 
     class Meta:
         model = Var
-        widgets = {
-            'description': AutosizedTextarea(
-                attrs={'rows': 3, 'class': 'input-xxlarge'}
-            ),
-        }
         exclude = ()
 
 
@@ -123,49 +88,4 @@ class SeoForm(forms.ModelForm):
 
     class Meta:
         model = Seo
-        widgets = {
-            'template': LinkedSelect,
-            'title': forms.TextInput(attrs={'class': 'input-xxlarge'}),
-            'keywords': forms.TextInput(attrs={'class': 'input-xxlarge'}),
-            'description': forms.TextInput(attrs={'class': 'input-xxlarge'}),
-            'author': forms.TextInput(attrs={'class': 'input-xxlarge'}),
-            'og_site_name': forms.TextInput(attrs={'class': 'input-xxlarge'}),
-            'og_title': forms.TextInput(attrs={'class': 'input-xxlarge'}),
-            # 'og_type': forms.TextInput(attrs={'class': 'input-xxlarge'}),
-            'og_url': forms.TextInput(attrs={'class': 'input-xxlarge'}),
-            'og_description': forms.TextInput(
-                attrs={'class': 'input-xxlarge'}
-            ),
-            'og_see_also': AutosizedTextarea(
-                attrs={'rows': 3, 'class': 'input-xxlarge'}
-            ),
-            'og_video': forms.TextInput(attrs={'class': 'input-xxlarge'}),
-            'og_audio': forms.TextInput(attrs={'class': 'input-xxlarge'}),
-            'article_published_time': SuitSplitDateTimeWidget,
-            'article_modified_time': SuitSplitDateTimeWidget,
-            'article_section': forms.TextInput(
-                attrs={'class': 'input-xxlarge'}
-            ),
-            'article_author': forms.TextInput(
-                attrs={'class': 'input-xxlarge'}
-            ),
-            'article_publisher': forms.TextInput(
-                attrs={'class': 'input-xxlarge'}
-            ),
-            'article_tag': forms.TextInput(attrs={'class': 'input-xxlarge'}),
-            'itemprop_name': forms.TextInput(attrs={'class': 'input-xxlarge'}),
-            'itemprop_description': forms.TextInput(
-                attrs={'class': 'input-xxlarge'}
-            ),
-            'itemprop_image': forms.TextInput(
-                attrs={'class': 'input-xxlarge'}
-            ),
-            'twitter_card': forms.TextInput(attrs={'class': 'input-xxlarge'}),
-            'twitter_site': forms.TextInput(attrs={'class': 'input-xxlarge'}),
-            'twitter_title': forms.TextInput(attrs={'class': 'input-xxlarge'}),
-            'twitter_description': forms.TextInput(
-                attrs={'class': 'input-xxlarge'}
-            ),
-            'twitter_url': forms.TextInput(attrs={'class': 'input-xxlarge'}),
-        }
         exclude = ()

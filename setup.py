@@ -5,15 +5,12 @@ import sodaseo
 version = sodaseo.__version__
 
 requires = [
-    'Django>=1.6',
-    'django-suit==0.2.16',
-    'django-filer==1.0.6',
+    'Django>=1.11',
     'django-ace>=1.0.2',
     'django-qurl>=0.1.1',
     'coverage>=3.7.1',
     'model-mommy>=1.2.3',
-    'South>=1.0.2',
-    'six>=1.9.0',
+    'easy-thumbnails>=2.4.1',
 ]
 
 setup(

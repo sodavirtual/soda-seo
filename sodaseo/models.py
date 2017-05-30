@@ -1,15 +1,11 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+import os
+
 from django.db import models
 from django.contrib.sites.models import Site
 from django.conf import settings
-from django.utils.encoding import python_2_unicode_compatible
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.utils import translation
-
-import os
-from filer.fields.image import FilerImageField
 
 from sodaseo.utils import convert_url
 
@@ -23,7 +19,6 @@ class CreateUpdateModel(models.Model):
         abstract = True
 
 
-@python_2_unicode_compatible
 class Config(CreateUpdateModel):
 
     site = models.ForeignKey(
@@ -91,7 +86,6 @@ class Config(CreateUpdateModel):
         return data
 
 
-@python_2_unicode_compatible
 class Template(CreateUpdateModel):
 
     name = models.CharField(
@@ -118,7 +112,6 @@ class Template(CreateUpdateModel):
         ordering = ['name']
 
 
-@python_2_unicode_compatible
 class Url(CreateUpdateModel):
 
     site = models.ForeignKey(
@@ -149,7 +142,6 @@ class Url(CreateUpdateModel):
         unique_together = ('site', 'path')
 
 
-@python_2_unicode_compatible
 class Var(CreateUpdateModel):
 
     url = models.ForeignKey(
@@ -176,7 +168,6 @@ class Var(CreateUpdateModel):
         ordering = ['name']
 
 
-@python_2_unicode_compatible
 class Seo(CreateUpdateModel):
 
     template = models.ForeignKey(
@@ -214,12 +205,11 @@ class Seo(CreateUpdateModel):
         blank=True
     )
 
-    image = FilerImageField(
-        null=True,
+    image = models.ImageField(
+        'image',
+        max_length=255,
         blank=True,
-        verbose_name='image',
-        on_delete=models.SET_NULL,
-        related_name='seo_image'
+        upload_to='sodaseo_images/'
     )
 
     # opengraph
@@ -245,12 +235,11 @@ class Seo(CreateUpdateModel):
         ),
     )
 
-    og_image = FilerImageField(
-        null=True,
+    og_image = models.ImageField(
+        'og:image',
+        max_length=255,
         blank=True,
-        verbose_name='og:image',
-        on_delete=models.SET_NULL,
-        related_name='seo_og_image'
+        upload_to='sodaseo_images/'
     )
 
     og_video = models.URLField(
@@ -349,12 +338,11 @@ class Seo(CreateUpdateModel):
         blank=True
     )
 
-    itemprop_image = FilerImageField(
-        null=True,
+    itemprop_image = models.ImageField(
+        'itemprop=image',
+        max_length=255,
         blank=True,
-        verbose_name='itemprop=image',
-        on_delete=models.SET_NULL,
-        related_name='seo_itemprop_image'
+        upload_to='sodaseo_images/'
     )
 
     # twitter
@@ -388,12 +376,11 @@ class Seo(CreateUpdateModel):
         blank=True
     )
 
-    twitter_image = FilerImageField(
-        null=True,
+    twitter_image = models.ImageField(
+        'twitter:image',
+        max_length=255,
         blank=True,
-        verbose_name='twitter:image',
-        on_delete=models.SET_NULL,
-        related_name='seo_twitter_image'
+        upload_to='sodaseo_images/'
     )
 
     # generic relation
@@ -462,8 +449,8 @@ def get_default_template():
     template_dir = os.path.join(
         os.path.dirname(sodaseo.__file__), 'templates/sodaseo/default.html'
     )
-    f = open(template_dir)
-    return f.read()
+    with open(template_dir) as f:
+        return f.read()
 
 
 def get_sodaseo_context(request, context={}, site_id=1):

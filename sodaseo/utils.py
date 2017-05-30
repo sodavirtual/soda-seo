@@ -1,7 +1,4 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-# from urlparse import urlparse, parse_qs
-from six.moves.urllib.parse import urlparse, parse_qsl
+from urllib.parse import urlparse, parse_qsl
 
 
 def convert_url(url):
