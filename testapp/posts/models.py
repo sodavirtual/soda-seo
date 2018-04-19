@@ -2,7 +2,6 @@ from django.db import models
 
 
 class Post(models.Model):
-
     title = models.CharField(
         'título',
         max_length=255

@@ -3,7 +3,6 @@ from django.template import Context, Template
 
 from sodaseo.models import Config, get_default_template, get_sodaseo_context
 
-
 register = template.Library()
 
 

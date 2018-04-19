@@ -1,4 +1,4 @@
-from urllib.parse import urlparse, parse_qsl
+from urllib.parse import parse_qsl, urlparse
 
 
 def convert_url(url):

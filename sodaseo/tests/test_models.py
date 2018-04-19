@@ -1,17 +1,13 @@
-from django.test import TestCase
-from django.utils.encoding import smart_text
 from django.contrib.sites.models import Site
-from django.test import RequestFactory
-
+from django.test import RequestFactory, TestCase
+from django.utils.encoding import smart_text
 from model_mommy import mommy
 
-from sodaseo.models import (
-    Config, Template, Url, Var, Seo, get_default_template, get_sodaseo_context
-)
+from sodaseo.models import (Config, Seo, Template, Url, Var,
+                            get_default_template, get_sodaseo_context)
 
 
 class TestConfig(TestCase):
-
     def test_create_model(self):
         config = mommy.make(Config)
         self.assertEqual(smart_text(config), config.site_name)
@@ -20,28 +16,24 @@ class TestConfig(TestCase):
 
 
 class TestTemplate(TestCase):
-
     def test_create_model(self):
         template = mommy.make(Template)
         self.assertEqual(smart_text(template), template.name)
 
 
 class TestUrl(TestCase):
-
     def test_create_model(self):
         url = mommy.make(Url)
         self.assertEqual(smart_text(url), url.path)
 
 
 class TestVar(TestCase):
-
     def test_create_model(self):
         var = mommy.make(Var)
         self.assertEqual(smart_text(var), var.name)
 
 
 class TestSeo(TestCase):
-
     def test_create_model(self):
         seo = mommy.make(Seo)
         self.assertEqual(smart_text(seo), seo.title)
@@ -50,14 +42,12 @@ class TestSeo(TestCase):
 
 
 class TestGetDefaultTemplate(TestCase):
-
     def test_function(self):
         data = get_default_template()
         self.assertTrue(data)
 
 
 class TestGetSodaSeoContext(TestCase):
-
     def setUp(self):
         self.factory = RequestFactory()
         self.site = Site.objects.get_current()

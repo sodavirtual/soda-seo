@@ -1,19 +1,17 @@
+from django.conf import settings
 from django.contrib import admin
 from django.contrib.contenttypes.admin import GenericStackedInline
-from django.conf import settings
 
-from sodaseo.models import Seo, Config, Template, Url, Var
-from sodaseo.forms import SeoForm, ConfigForm, TemplateForm, UrlForm, VarForm
+from sodaseo.forms import ConfigForm, SeoForm, TemplateForm, UrlForm, VarForm
+from sodaseo.models import Config, Seo, Template, Url, Var
 from sodaseo.settings import SODA_SEO_I18N
 
 
 class SeoAllInline(GenericStackedInline):
-
     model = Seo
     form = SeoForm
     max_num = 1
     extra = 0
-
     fieldsets = (
         (None, {
             'fields': (
@@ -73,10 +71,8 @@ class SeoAllInline(GenericStackedInline):
 
 
 class SeoInline(SeoAllInline):
-
     max_num = 1
     extra = 0
-
     fieldsets = (
         (None, {
             'fields': (
@@ -128,7 +124,6 @@ class SeoInline(SeoAllInline):
 
 
 class SeoUrlInline(SeoAllInline):
-
     fieldsets = (
         (None, {
             'fields': (
@@ -180,14 +175,12 @@ class SeoUrlInline(SeoAllInline):
 
 
 class VarInline(admin.StackedInline):
-
     model = Var
     form = VarForm
     extra = 1
 
 
 class ConfigAdmin(admin.ModelAdmin):
-
     list_display = (
         'site_name', 'google_site_verification', 'fb_appid', 'fb_profile_id',
         'site', 'created_at'
@@ -199,7 +192,6 @@ class ConfigAdmin(admin.ModelAdmin):
 
 
 class TemplateAdmin(admin.ModelAdmin):
-
     list_display = (
         'name', 'created_at'
     )
@@ -209,7 +201,6 @@ class TemplateAdmin(admin.ModelAdmin):
 
 
 class UrlAdmin(admin.ModelAdmin):
-
     list_display = (
         'path', 'site', 'created_at'
     )

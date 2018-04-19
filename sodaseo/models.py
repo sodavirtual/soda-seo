@@ -1,17 +1,16 @@
 import os
 
-from django.db import models
-from django.contrib.sites.models import Site
 from django.conf import settings
-from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.sites.models import Site
+from django.db import models
 from django.utils import translation
 
 from sodaseo.utils import convert_url
 
 
 class CreateUpdateModel(models.Model):
-
     created_at = models.DateTimeField('Criado em', auto_now_add=True)
     updated_at = models.DateTimeField('Atualizado em', auto_now=True)
 
@@ -20,12 +19,12 @@ class CreateUpdateModel(models.Model):
 
 
 class Config(CreateUpdateModel):
-
     site = models.ForeignKey(
         Site,
         verbose_name='site',
         related_name='sodaseo_config',
-        default=settings.SITE_ID
+        default=settings.SITE_ID,
+        on_delete=models.CASCADE,
     )
 
     site_name = models.CharField(
@@ -87,7 +86,6 @@ class Config(CreateUpdateModel):
 
 
 class Template(CreateUpdateModel):
-
     name = models.CharField(
         'nome',
         max_length=255
@@ -113,12 +111,12 @@ class Template(CreateUpdateModel):
 
 
 class Url(CreateUpdateModel):
-
     site = models.ForeignKey(
         Site,
         verbose_name='site',
         related_name='sodaseo_urls',
-        default=settings.SITE_ID
+        default=settings.SITE_ID,
+        on_delete=models.CASCADE,
     )
 
     path = models.CharField(
@@ -143,11 +141,11 @@ class Url(CreateUpdateModel):
 
 
 class Var(CreateUpdateModel):
-
     url = models.ForeignKey(
         Url,
         verbose_name='url',
         related_name='vars',
+        on_delete=models.CASCADE,
     )
 
     name = models.CharField(
@@ -169,10 +167,10 @@ class Var(CreateUpdateModel):
 
 
 class Seo(CreateUpdateModel):
-
     template = models.ForeignKey(
         'Template',
-        verbose_name='template'
+        verbose_name='template',
+        on_delete=models.CASCADE,
     )
 
     language = models.CharField(
@@ -384,7 +382,7 @@ class Seo(CreateUpdateModel):
     )
 
     # generic relation
-    content_type = models.ForeignKey(ContentType)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey()
 
@@ -438,7 +436,7 @@ class Seo(CreateUpdateModel):
             try:
                 if getattr(self, field):
                     data[field] = getattr(self, field)
-            except:
+            except KeyError:
                 pass
 
         return data
@@ -468,10 +466,7 @@ def get_sodaseo_context(request, context={}, site_id=1):
         return context
 
     # load config
-    try:
-        config = Config.objects.filter(site=site)[0]
-    except:
-        pass
+    config = Config.objects.filter(site=site).first()
 
     if config:
         config_seo = Seo.objects.filter(
@@ -490,13 +485,7 @@ def get_sodaseo_context(request, context={}, site_id=1):
         config_context.update(config.to_dict())
 
     # load url
-    try:
-        url = Url.objects.filter(
-            site=site,
-            path=convert_url(request.get_full_path())
-        )[0]
-    except:
-        pass
+    url = Url.objects.filter(site=site, path=convert_url(request.get_full_path())).first()
 
     if url:
         url_seo = Seo.objects.filter(

@@ -4,7 +4,6 @@ from sodaseo.utils import convert_url
 
 
 class TestConvertUrl(TestCase):
-
     def test_function(self):
         url = '/blog/'
         self.assertEqual(convert_url(url), url)

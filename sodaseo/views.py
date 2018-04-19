@@ -1,14 +1,13 @@
 from django.contrib.contenttypes.models import ContentType
-from django.views.generic import View
 from django.http import HttpResponse
 from django.template import Context, Template
 from django.test import RequestFactory
+from django.views.generic import View
 
 from sodaseo.models import Seo
 
 
 class SodaSeoMixin(object):
-
     def get_sodaseo_object(self):
         if getattr(self, 'object', None):
             try:
@@ -30,7 +29,6 @@ class SodaSeoMixin(object):
 
 
 class RenderTagsDetail(View):
-
     def get(self, request):
         factory = RequestFactory()
         request = factory.get(request.GET.get('url', '/'))

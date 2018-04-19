@@ -1,14 +1,12 @@
-from django.test import TestCase
-from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
-
+from django.test import TestCase
+from django.urls import reverse
 from model_mommy import mommy
 
 from sodaseo.models import Config, Template, Url
 
 
 class TestConfigAdmin(TestCase):
-
     def setUp(self):
         self.user = User.objects.create_user(
             'user1', 'user1@email.com', '123456'
@@ -36,7 +34,6 @@ class TestConfigAdmin(TestCase):
 
 
 class TestTemplateAdmin(TestCase):
-
     def setUp(self):
         self.user = User.objects.create_user(
             'user1', 'user1@email.com', '123456'
@@ -64,7 +61,6 @@ class TestTemplateAdmin(TestCase):
 
 
 class TestUrlAdmin(TestCase):
-
     def setUp(self):
         self.user = User.objects.create_user(
             'user1', 'user1@email.com', '123456'

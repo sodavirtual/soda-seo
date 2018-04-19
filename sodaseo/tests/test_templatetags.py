@@ -1,13 +1,12 @@
-from django.test import TestCase
 from django.contrib.sites.models import Site
-from django.test import RequestFactory
-from django.template import Context, Template as DjangoTemplate
+from django.template import Template as DjangoTemplate
+from django.template import Context
+from django.test import RequestFactory, TestCase
 
-from sodaseo.models import Config, Template, Seo, Url, get_default_template
+from sodaseo.models import Config, Seo, Template, Url, get_default_template
 
 
 class TestSodaSeoRenderTags(TestCase):
-
     def setUp(self):
         self.factory = RequestFactory()
         self.site = Site.objects.get_current()
@@ -59,7 +58,6 @@ class TestSodaSeoRenderTags(TestCase):
 
 
 class TestSodaSeoRenderAnalytics(TestCase):
-
     def setUp(self):
         self.factory = RequestFactory()
         self.site = Site.objects.get_current()
@@ -97,7 +95,6 @@ class TestSodaSeoRenderAnalytics(TestCase):
 
 
 class TestSodaSeoRenderExtraHead(TestCase):
-
     def setUp(self):
         self.factory = RequestFactory()
         self.site = Site.objects.get_current()
@@ -135,7 +132,6 @@ class TestSodaSeoRenderExtraHead(TestCase):
 
 
 class TestSodaSeoRenderExtraBody(TestCase):
-
     def setUp(self):
         self.factory = RequestFactory()
         self.site = Site.objects.get_current()

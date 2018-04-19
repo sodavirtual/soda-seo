@@ -1,11 +1,10 @@
-from django.test import TestCase
 from django.contrib.sites.models import Site
+from django.test import TestCase
 
-from sodaseo.forms import UrlForm, ConfigForm
+from sodaseo.forms import ConfigForm, UrlForm
 
 
 class TestUrlForm(TestCase):
-
     def test_clean_path(self):
         site = Site.objects.get_current()
         site2 = Site.objects.create(name='example2.com', domain='example2.com')
